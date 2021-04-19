@@ -1,0 +1,46 @@
+###############################################################################
+#                         CHARACTER                                           #
+###############################################################################
+
+name: str Name
+base_id: str used as Foreign key
+pk: Primary Key ?
+url: url
+image: game portait
+power: max power ?
+description: description
+combat_type: ?
+gear_levels: List all the Gear per Gear Level as follow
+            {'tier': 1,
+            'gear': ['007', '008', '005', '005', '001', '002']
+            },
+alignment: alignment
+categories: tags
+ability_classes: game mechanics the character possesses
+role: role
+ship: character ship
+ship_slot: character place in the ship ?
+activate_shard_count: minimum shards required to active the character
+url the character on swgoh.gg
+
+
+###############################################################################
+#                         ABILITIES                                           #
+###############################################################################
+
+base_id: str used as Foreign Key
+name: str name
+image: game icon
+url: url
+tier_max: int max tier of the ability
+is_zeta: bool
+is_omega: bool
+combat_type: int ?
+type: int Indicate the type of the Ability. Possible Values:
+    1: Basic Attack
+    2: Special Attack
+    3: Leader
+    4: Unique
+    5: Special Attack (Ship)
+character_base_id: Foreign Key to the Character
+ship_base_id: ?
