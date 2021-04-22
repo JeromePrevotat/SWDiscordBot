@@ -2,16 +2,15 @@
 #                         IMPORTS                                             #
 ###############################################################################
 
-from urllib.request import urlopen
+import requests
 
 from bs4 import BeautifulSoup
 
 
-#soup = BeautifulSoup(url, 'html.parser')
-
-if __name__ == '__main__':
-    def test():
-        print(test.__code__.co_name)
-
-    def flength(f):
-        return len(f.__name__)
+def get_ablt_desc(htmlDoc, url):
+        soup = BeautifulSoup(htmlDoc, 'html.parser')
+        i = len(url) - 1
+        while url[i] != '#':
+            i -= 1
+        target = url[i:]
+        return soup.find('a', attrs={'data-target':target}).find('p').get_text()

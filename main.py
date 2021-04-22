@@ -4,13 +4,14 @@
 
 import os
 import inspect
+import requests
 from dotenv import load_dotenv
 
 import discord
 from discord.ext import commands
 
 import swgohgg
-
+import webscrapper
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -94,6 +95,35 @@ class KhaBot(commands.Bot):
         await ctx.channel.send(msg)
 
     @commands.command(
+        brief='Returns the Basic Ability of a specified Character.',
+        help='Returns the Basic Ability of a specified Character.')
+    async def basic(ctx):
+        charKit = []
+        msg = ''
+        basic = {}
+        charName = await ctx.bot.get_cmd_arg(ctx)
+        charList = ctx.bot.client.get_from_api('characters')
+        charId = ctx.bot.client.get_character(charName, charList)['base_id']
+        abilitiesList = ctx.bot.client.get_from_api('abilities')
+        for ability in abilitiesList:
+            if (ability['character_base_id'] == charId
+                and ability['type'] == swgohgg.BASIC_ABLT):
+                basic = ability
+                break
+        # Since Ability Description is missing from the API
+        # We have to retreive it another way
+        response = requests.get('https:' + basic['url'])
+        if response.status_code == 200:
+            htmlDoc = response.content
+            basic['description'] = webscrapper.get_ablt_desc(htmlDoc, basic['url'])
+            for k,v in basic.items():
+                msg = msg + k.__str__() + ': ' + v.__str__() + '\n'
+        else:
+            msg = 'Error: ' + response.status_code
+        await ctx.channel.send(msg)
+
+
+    @commands.command(
         brief='Returns all the Abilities of a specified Character.',
         help='Returns all the Abilities of a specified Character.')
     async def kit(ctx):
@@ -105,13 +135,24 @@ class KhaBot(commands.Bot):
         abilitiesList = ctx.bot.client.get_from_api('abilities')
         for ability in abilitiesList:
             if (ability['character_base_id'] == charId
-                and ability['type'] in [1,2,3,4]):
+                and ability['type'] in [
+                    swgohgg.BASIC_ABLT, swgohgg.SPECIAL_ABLT,
+                    swgohgg.UNIQUE_ABLT, swgohgg.LEADER_ABLT]):
                 charKit.append(ability)
-        for ability in charKit:
-            for k,v in ability.items():
-                msg = msg + k.__str__() + v.__str__() + '\n'
-            msg = msg + '\n'
-        await ctx.channel.send(msg)
+        # Since Ability Description is missing from the API
+        # We have to retreive it another way
+        response = requests.get('https:' + charKit[0]['url'])
+        if response.status_code == 200:
+            htmlDoc = response.content
+            for ability in charKit:
+                ability['description'] = webscrapper.get_ablt_desc(htmlDoc, ability['url'])
+                for k,v in ability.items():
+                    msg = msg + k.__str__() + ': ' + v.__str__() + '\n'
+                await ctx.channel.send(msg)
+                msg = ''
+        else:
+            msg = 'Error: ' + response.status_code
+            await ctx.channel.send(msg)
 
 if __name__ == '__main__':
     khabot = KhaBot()

@@ -13,6 +13,16 @@ import requests
 from json import loads, dumps
 
 ###############################################################################
+#                         CONSTANTS                                           #
+###############################################################################
+
+BASIC_ABLT = 1
+SPECIAL_ABLT = 2
+LEADER_ABLT = 3
+UNIQUE_ABLT = 4
+SHIP_ABLT = 5
+
+###############################################################################
 #                         CLASSES                                             #
 ###############################################################################
 
@@ -27,7 +37,6 @@ class Swgohgg():
 
     def get_from_api(self, category):
         fullUrl = self.baseUrl + self.categoryUrl[category]
-        head = {'content-type':'application/x-www-form-urlencoded'}
         request = requests.request('GET', fullUrl, timeout=10)
         if request.status_code != 200:
             return {'status_code':request.status_code, 'message':'Error'}
