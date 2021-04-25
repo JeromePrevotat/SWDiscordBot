@@ -44,6 +44,15 @@ class Swgohgg():
         return result
 
     def get_character(self, charName, charList):
+        character = []
         for character in charList:
             if charName.lower().strip() == character['name'].lower().strip():
                 return character
+
+    def get_ability_class_list(self, charList):
+        abltClassList = []
+        for character in charList:
+            for abltClass in character['ability_classes']:
+                if abltClass not in abltClassList:
+                    abltClassList.append(abltClass)
+        return abltClassList

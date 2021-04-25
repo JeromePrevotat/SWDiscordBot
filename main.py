@@ -19,6 +19,7 @@ import webscrapper
 
 load_dotenv(dotenv_path='./.env/config')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+ARG_CHAR_LIMIT = 50
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -58,101 +59,100 @@ class KhaBot(commands.Bot):
                         self.chanList[g] = c
                         await c.send(f'{self.user.display_name} has awoken !')
 
-    def get_channel(self, ctx):
-        return ctx.bot.chanList[ctx.message.channel.guild]
-
     async def get_cmd_arg(self, ctx):
-        channel = ctx.bot.get_channel(ctx)
-        charName = await channel.history(limit=1).flatten()
-        charName = charName[0].content
+        channel = ctx.channel
+        arg = await channel.history(limit=1).flatten()
+        arg = arg[0].content
         i = 0
-        while charName[i] != ' ':
+        while arg[i] != ' ':
             i += 1
-        return charName[i:]
+        return arg[i + 1:].split(' ')
+
+    async def build_msg(self, ctx, msg, *arg):
+        msg = msg
+        for argument in arg:
+            if len(msg) + len(arg) + 2 < 2000:
+                msg = msg + argument + '\n'
+            else:
+                await arg[0].channel.send(msg)
+                msg = ''
+        return msg
+
+    def check_channel_permissions(self, ctx):
+        if(type(ctx.channel)==discord.TextChannel
+            and ctx.channel.permissions_for(
+                member = discord.utils.find(
+                    lambda m: m.id == self.user.id, ctx.channel.guild.members)
+                ).read_messages==True
+            and ctx.channel.permissions_for(
+                member = discord.utils.find(
+                    lambda m: m.id == self.user.id, ctx.channel.guild.members)
+                ).send_messages==True):
+                return True
+        return False
+
+    async def send_msg(self, ctx, msg):
+        if check_channel_permissions(ctx):
+            await ctx.channel.send(msg)
 
     # Delete the last 20 messages in the Bot channel and close the Bot if Owner
     @commands.is_owner()
     @commands.command(
         brief='Delete last 20 messages then close khabot.',
-        help="Delete the last 20 messages from khabot channel then close the \
-            bot if you are it's owner. Can raise RuntimeError on Windows.")
+        help="Delete the last 20 messages from the channel then close the \
+            bot if you are it's owner.")
     async def die(ctx):
-        channel = ctx.bot.get_channel(ctx)
-        messagesList = await channel.history(limit=20).flatten()
-        await channel.delete_messages(messagesList)
+        if (ctx.bot.check_channel_permissions(ctx)
+            and ctx.channel.permissions_for(
+            member = discord.utils.find(
+                lambda m: m.id == ctx.bot.user.id, ctx.channel.guild.members)
+            ).manage_messages==True):
+            messagesList = await ctx.channel.history(limit=20).flatten()
+            await ctx.channel.delete_messages(messagesList)
         await ctx.bot.logout()
 
     @commands.command(
         brief='Returns a Character.',
         help='Returns a Character.')
     async def who(ctx):
-        msg = ''
-        charName = await ctx.bot.get_cmd_arg(ctx)
-        charList = ctx.bot.client.get_from_api('characters')
-        character = ctx.bot.client.get_character(charName, charList)
-        for k,v in character.items():
-            msg = msg + k.__str__() + ': ' + v.__str__() + '\n'
+        msg = 'Working on it.'
         await ctx.channel.send(msg)
 
     @commands.command(
         brief='Returns the Basic Ability of a specified Character.',
         help='Returns the Basic Ability of a specified Character.')
     async def basic(ctx):
-        charKit = []
-        msg = ''
-        basic = {}
-        charName = await ctx.bot.get_cmd_arg(ctx)
-        charList = ctx.bot.client.get_from_api('characters')
-        charId = ctx.bot.client.get_character(charName, charList)['base_id']
-        abilitiesList = ctx.bot.client.get_from_api('abilities')
-        for ability in abilitiesList:
-            if (ability['character_base_id'] == charId
-                and ability['type'] == swgohgg.BASIC_ABLT):
-                basic = ability
-                break
-        # Since Ability Description is missing from the API
-        # We have to retreive it another way
-        response = requests.get('https:' + basic['url'])
-        if response.status_code == 200:
-            htmlDoc = response.content
-            basic['description'] = webscrapper.get_ablt_desc(htmlDoc, basic['url'])
-            for k,v in basic.items():
-                msg = msg + k.__str__() + ': ' + v.__str__() + '\n'
-        else:
-            msg = 'Error: ' + response.status_code
+        msg = 'Working on it.'
         await ctx.channel.send(msg)
-
 
     @commands.command(
         brief='Returns all the Abilities of a specified Character.',
         help='Returns all the Abilities of a specified Character.')
     async def kit(ctx):
-        charKit = []
+        msg = 'Working on it.'
+        await ctx.channel.send(msg)
+
+    @commands.command(
+        brief='Who interacts with a specified Status Effect.',
+        help='Returns a List of Characters that have an interaction with the\
+        specified Status Effect.')
+    async def have(ctx):
         msg = ''
-        charName = await ctx.bot.get_cmd_arg(ctx)
+        matches = []
         charList = ctx.bot.client.get_from_api('characters')
-        charId = ctx.bot.client.get_character(charName, charList)['base_id']
-        abilitiesList = ctx.bot.client.get_from_api('abilities')
-        for ability in abilitiesList:
-            if (ability['character_base_id'] == charId
-                and ability['type'] in [
-                    swgohgg.BASIC_ABLT, swgohgg.SPECIAL_ABLT,
-                    swgohgg.UNIQUE_ABLT, swgohgg.LEADER_ABLT]):
-                charKit.append(ability)
-        # Since Ability Description is missing from the API
-        # We have to retreive it another way
-        response = requests.get('https:' + charKit[0]['url'])
-        if response.status_code == 200:
-            htmlDoc = response.content
-            for ability in charKit:
-                ability['description'] = webscrapper.get_ablt_desc(htmlDoc, ability['url'])
-                for k,v in ability.items():
-                    msg = msg + k.__str__() + ': ' + v.__str__() + '\n'
-                await ctx.channel.send(msg)
-                msg = ''
-        else:
-            msg = 'Error: ' + response.status_code
+        abltClassList = ctx.bot.client.get_ability_class_list(charList)
+        argList = await ctx.bot.get_cmd_arg(ctx)
+        for character in charList:
+            for abltClass in character['ability_classes']:
+                if argList[0].lower() == abltClass.lower():
+                    matches.append(character['name'])
+        if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
+            msg = 'No Character seems to interact with ' + argList[0] + '.'
+        for character in matches:
+            msg = await ctx.bot.build_msg(ctx, msg, character)
+        if len(msg) > 0:
             await ctx.channel.send(msg)
+
 
 if __name__ == '__main__':
     khabot = KhaBot()

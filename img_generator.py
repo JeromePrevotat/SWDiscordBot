@@ -4,94 +4,39 @@
 
 import os
 import requests
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
-import swgohgg
 
 ASSETS_PATH = os.path.join(os.getcwd() + os.sep + 'assets')
 CHARACTERS_ASSETS = os.path.join(ASSETS_PATH + os.sep + 'characters')
 ABILITIES_ASSETS = os.path.join(ASSETS_PATH + os.sep + 'abilities')
+FONTS_PATH = os.path.join(ASSETS_PATH + os.sep + 'fonts')
 FILE_FORMAT = '.png'
 
 if __name__ == '__main__':
-    def checkMissing(refList, newList, verbal):
-        refTotal = len(refList)
-        newTotal = len(newList)
-        missing = []
-        if verbal:
-            print('There is {} Elements and {} were created.'.format(
-                len(refList), len(newList)))
-        if len(refList) != len(newList):
-            if verbal:
-                print('Here are the missing Elements :')
-            for element in refList:
-                if element not in newList:
-                    missing.append(element)
-                    if verbal:
-                        print(element['base_id'])
-        return refTotal, newTotal, missing
+    # Get ALL Image
+        # Get Icon Image
+        #filename = url[:len(url)-1].split('/')[-1]
+    try:
+        icon = Image.open(os.path.join(
+        ABILITIES_ASSETS + os.sep + 'BOSSK'
+        + os.sep + 'basicskill_BOSSK' + FILE_FORMAT))
+    except OSError as error:
+        print(error)
+        # Get Title Image from Text
+            #Create Image from Text
+    abltTitle = Image.new('RGB', (200, 50), color=(25,25,25))
+    d = ImageDraw.Draw(abltTitle)
+    fnt = ImageFont.truetype(os.path.join(
+        FONTS_PATH + os.sep + 'arial.ttf'), 20)
+    d.text((10,35), 'Bossk Basic Skill',
+        font=fnt, fill=(255,255,255), anchor='ms')
 
-    def mkCharDirs(charList):
-        print('Creating Folders...')
-        for character in charList:
-            if not os.path.isdir(ABILITIES_ASSETS
-                + os.sep + character['base_id']):
-                os.mkdir(ABILITIES_ASSETS + os.sep + character['base_id'])
-        checkMissing([character['base_id'] for character in charList],
-            os.listdir(ABILITIES_ASSETS), verbal=True)
 
-    def getCharAssets(charList):
-        for character in charList:
-            url = 'https://swgoh.gg' + character['image']
-            filename = url[:len(url)-1].split('/')[-1]
-            response = requests.request('GET', url)
-            if response.status_code == 200:
-                with open(os.path.join(
-                    CHARACTERS_ASSETS + os.sep + filename + FILE_FORMAT),
-                    'w+b') as f:
-                    f.write(response.content)
-        checkMissing([character['base_id'] for character in charList],
-            os.listdir(CHARACTERS_ASSETS), verbal=True)
-
-    def getAbilitiesAssets(charList, abilitiesList):
-        refTotal = 0
-        newTotal = 0
-        missingTotal = []
-        for character in charList:
-            charKit = []
-            path = os.path.join(ABILITIES_ASSETS
-                + os.sep + character['base_id'])
-            for ability in abilitiesList:
-                if ability['character_base_id'] == character['base_id']:
-                    charKit.append(ability)
-            for ability in charKit:
-                url = 'https://swgoh.gg' + ability['image']
-                response = requests.request('GET', url)
-                filename = url[:len(url)-1].split('/')[-1]
-                if response.status_code == 200:
-                    with open(os.path.join(
-                    ABILITIES_ASSETS + os.sep
-                    + character['base_id'] + os.sep
-                    + filename + FILE_FORMAT), 'w+b') as f:
-                        f.write(response.content)
-            # Final Check Lists
-            r, n, m = checkMissing(charKit,
-                os.listdir(ABILITIES_ASSETS + os.sep
-                + character['base_id']), verbal = False)
-            refTotal += r
-            newTotal += n
-            for element in m:
-                missingTotal.append(element)
-        # Print Missing Items
-        print('There is {} Elements and {} were created.'.format(
-            refTotal, newTotal))
-        print('Here are the missing Elements :')
-        for element in m:
-            print(element['base_id'])
-
-    client = swgohgg.Swgohgg()
-    charList = client.get_from_api('characters')
-    abilitiesList = client.get_from_api('abilities')
-    mkCharDirs(charList)
-    getCharAssets(charList)
-    getAbilitiesAssets(charList, abilitiesList)
+    abltTitle.save(os.path.join(
+        ASSETS_PATH + os.sep + 'misc'
+        + os.sep + 'abltTitle' + FILE_FORMAT))
+        # Get Description Image
+            # Create Image from Text
+    # Create Template
+    # Fill Template
