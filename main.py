@@ -13,6 +13,7 @@ from discord.ext import commands
 import swgohgg
 import webscrapper
 import locals
+import servers_locals
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -21,6 +22,7 @@ import locals
 load_dotenv(dotenv_path='./.env/config')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
+CWD = os.getcwd()
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -34,7 +36,7 @@ class KhaBot(commands.Bot):
         self._intents = discord.Intents.default()
         self._intents.members=True
         self.chanList = {}
-        self.currentLocal = locals.LOCALS['EN-US']
+        self.guildLocals = servers_locals.SERVER_LOCALS
         #Swgoh.gg related stuff
         self.client = swgohgg.Swgohgg()
         # Activates all Command instances of the Bot
@@ -46,8 +48,9 @@ class KhaBot(commands.Bot):
 
     # On connection
     async def on_ready(self):
-        for g in self.guilds:
-            for c in g.channels:
+        for guild in self.guilds:
+            self.set_guild_locals(guild)
+            for c in guild.channels:
                 if(type(c)==discord.TextChannel
                     and c.name.lower() == 'khabot'
                     and c.permissions_for(
@@ -58,8 +61,60 @@ class KhaBot(commands.Bot):
                         member = discord.utils.find(
                             lambda m: m.id == self.user.id, c.guild.members)
                         ).send_messages==True):
-                        self.chanList[g] = c
+                        self.chanList[guild] = c
                         await c.send(f'{self.user.display_name} has awoken !')
+
+    async def on_guild_join(self, guild):
+        """On joining a new server, sets the default local."""
+        self.set_guild_locals(guild)
+
+    def get_local_entry(self, guildId, newLocal):
+        """Return a formated string to fill in servers_locals file."""
+        newEntry = '\t\'{}\':\'{}\',\n'.format(
+            guildId, newLocal)
+        return newEntry
+
+    def set_guild_locals(self, guild):
+        """Sets locals of all server either from the server_locals file,
+        or default it to EN-US if this is the first connection."""
+        guildId = str(guild.id)
+        # New entry if this is a new server
+        if guildId not in self.guildLocals.keys():
+            self.guildLocals[guildId] = locals.EN_US
+            # Update the file where entries are stored
+            newEntry = self.get_local_entry(guildId, self.guildLocals[guildId])
+            self.update_locals_file(guildId, newEntry)
+
+    def update_locals_file(self, guildId, newEntry=None, update=None):
+        """Update the server_locals file."""
+        line = ''
+        #Set default Local to EN-US
+        if newEntry is None:
+            newEntry = get_local_entry(guildId, locals.EN_US)
+        with open(os.path.join(CWD + os.sep + 'servers_locals.py'), 'r') as f:
+            with open(os.path.join(
+                    CWD + os.sep + 'new_servers_locals.py'), 'w+') as new_f:
+                line = f.readline()
+                while line != '':
+                    if (update and line.strip()[1:len(guildId)+1] == guildId):
+                        line = f.readline()
+                    if line == '}' or line == '}\n':
+                        line = f.readline()
+                    new_f.write(line)
+                    line = f.readline()
+                new_f.write(newEntry)
+                new_f.write('}')
+        # Replace the old file by the new one
+        os.remove(os.path.join(CWD + os.sep + 'servers_locals.py'))
+        os.rename(os.path.join(CWD + os.sep + 'new_servers_locals.py'),
+            os.path.join(CWD + os.sep + 'servers_locals.py'))
+
+    def get_guild_local(self, guild):
+        currentLocal = ''
+        for k,v in self.guildLocals.items():
+            if k == str(guild.id):
+                currentLocal = v
+        return locals.LOCALS[currentLocal]
 
     async def get_cmd_arg(self, ctx):
         channel = ctx.channel
@@ -121,16 +176,23 @@ class KhaBot(commands.Bot):
         msg = ''
         argList = await ctx.bot.get_cmd_arg(ctx)
         if len(argList) > 0:
-            for l,v in locals.LOCALS.items():
-                if argList[0].lower() == l.lower():
-                    ctx.bot.currentLocal = v
+            for key in locals.LOCALS.keys():
+                if argList[0].lower() == key.lower():
+                    ctx.bot.guildLocals[str(ctx.guild.id)] = key
+                    newEntry = ctx.bot.get_local_entry(
+                        str(ctx.guild.id), newLocal=key)
+                    ctx.bot.update_locals_file(
+                        str(ctx.guild.id), newEntry=newEntry, update=True)
                     msg = await ctx.bot.build_msg(
-                        ctx, msg, ctx.bot.currentLocal['set_local_success'])
+                        ctx, msg,
+                        ctx.bot.get_guild_local(
+                        ctx.guild)['set_local_success'])
         if len(msg) > 0:
             await ctx.channel.send(msg)
         else:
             msg = await ctx.bot.build_msg(
-                ctx, msg, ctx.bot.currentLocal['set_local_fail'])
+                ctx, msg, ctx.bot.get_guild_local(
+                ctx.guild)['set_local_fail'])
             await ctx.channel.send(msg)
 
     @commands.command(

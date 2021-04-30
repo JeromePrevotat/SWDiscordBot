@@ -1,4 +1,7 @@
-LOCALISATIONS = [
+EN_US = 'EN-US'
+FR_FR = 'FR-FR'
+
+LOCALIZATIONS = [
     {
         'local':'EN-US',
         'set_local_success':'Bot new local set to ',
@@ -20,6 +23,6 @@ LOCALISATIONS = [
 ]
 
 LOCALS = {
-    'EN-US':LOCALISATIONS[0],
-    'FR-FR':LOCALISATIONS[1],
+    EN_US:LOCALIZATIONS[0],
+    FR_FR:LOCALIZATIONS[1],
 }
