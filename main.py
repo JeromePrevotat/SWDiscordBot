@@ -12,6 +12,7 @@ from discord.ext import commands
 
 import swgohgg
 import webscrapper
+import locals
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -33,6 +34,7 @@ class KhaBot(commands.Bot):
         self._intents = discord.Intents.default()
         self._intents.members=True
         self.chanList = {}
+        self.currentLocal = locals.LOCALS['EN-US']
         #Swgoh.gg related stuff
         self.client = swgohgg.Swgohgg()
         # Activates all Command instances of the Bot
@@ -110,6 +112,26 @@ class KhaBot(commands.Bot):
             messagesList = await ctx.channel.history(limit=20).flatten()
             await ctx.channel.delete_messages(messagesList)
         await ctx.bot.logout()
+
+    # Set Localisation
+    @commands.command(
+        brief='Set bot localisation.',
+        help="Set bot localisation.")
+    async def local(ctx):
+        msg = ''
+        argList = await ctx.bot.get_cmd_arg(ctx)
+        if len(argList) > 0:
+            for l,v in locals.LOCALS.items():
+                if argList[0].lower() == l.lower():
+                    ctx.bot.currentLocal = v
+                    msg = await ctx.bot.build_msg(
+                        ctx, msg, ctx.bot.currentLocal['set_local_success'])
+        if len(msg) > 0:
+            await ctx.channel.send(msg)
+        else:
+            msg = await ctx.bot.build_msg(
+                ctx, msg, ctx.bot.currentLocal['set_local_fail'])
+            await ctx.channel.send(msg)
 
     @commands.command(
         brief='Returns a Character.',
