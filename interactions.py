@@ -1,3 +1,17 @@
+###############################################################################
+#                         IMPORTS                                             #
+###############################################################################
+
+import os
+
+import swgohgg
+
+###############################################################################
+#                         CONSTANTS                                           #
+###############################################################################
+
+CWD = os.getcwd()
+
 ABILITY_CLASSES = {
 		'AAYLASECURA':['Assist', 'Counter', 'Leader: +Tenacity', 'Stun'],
 		'ADMIRALACKBAR':['Dispel', 'TM Gain', 'Heal', 'Leader: +Speed',
@@ -498,8 +512,12 @@ ABILITY_CLASSES = {
             'Leader: +Potency', 'TM Gain', 'Speed Up', 'Stealth',
             'Thermal Detonator'],
         'BADBATCHWRECKER':['AoE', 'Bonus Attack', 'Defense Up', 'Mass Dispel',
-            'TM Gain', 'Speed Down', 'Stun', 'Taunt', 'Tenacity Up']
+            'TM Gain', 'Speed Down', 'Stun', 'Taunt', 'Tenacity Up'],
+		'BADBATCHECHO':['AoE', 'Assist', 'Buff Immunity', 'Daze', 'Cleanse',
+			'Evasion Up', 'Expose', 'TM Gain', 'Heal Immunity',
+			'CD Reduction', 'Defense Up', 'CD Increase', 'Mass Dispel'],
 	}
+
 ABILITY_CLASSES_LIST = [
     'Ability Block', 'Accuracy Down', 'Accuracy Up',
     'Advantage', 'AoE', 'Armor Shred', 'Assist', 'Blind',
@@ -528,3 +546,11 @@ ABILITY_CLASSES_LIST = [
     'Thermal Detonator', 'Translation', 'True Damage', 'Untargetable',
     'Vulnerable'
     ]
+
+if __name__ == '__main__':
+	client = swgohgg.Swgohgg()
+	charList = client.get_from_api('characters')
+	for character in charList:
+		if character['base_id'] == 'BADBATCHECHO':
+			for cat in character:
+				print(character[cat])
