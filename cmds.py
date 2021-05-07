@@ -14,6 +14,7 @@ import swgohgg
 import webscrapper
 import locals
 import servers_locals
+import interactions
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -58,16 +59,25 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         msg = ''
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
-        abltClassList = ctx.bot.client.get_ability_class_list(charList)
         argList = await ctx.bot.get_cmd_arg(ctx)
-        for character in charList:
-            for abltClass in character['ability_classes']:
-                if argList[0].lower() == abltClass.lower():
-                    matches.append(character['name'])
-        if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
-            msg = 'No Character seems to interact with ' + argList[0] + '.'
-        for character in matches:
-            msg = await ctx.bot.build_msg(ctx, msg, character)
+        if argList is not None:
+            effect = ' '.join(str(s) for s in argList).lower()
+            msg = ctx.bot.get_localized_str(ctx, 'have_success')\
+                + effect.capitalize() + ':\n'
+            for charBaseId, charAbltList in interactions.ABLT_CLASSES.items():
+                for ablt in charAbltList:
+                    if effect == ablt.lower():
+                        matches.append(charBaseId)
+            for charBaseId in matches:
+                for character in charList:
+                    if charBaseId == character['base_id']:
+                        msg = await ctx.bot.build_msg(
+                            ctx, msg, character['name'])
+            if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
+                msg = ctx.bot.get_localized_str(ctx, 'have_fail')\
+                    + effect.capitalize() + '.'
+        else:
+            msg = ctx.bot.get_localized_str(ctx, 'missing_arg')
         if len(msg) > 0:
             await ctx.channel.send(msg)
 
@@ -83,9 +93,10 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
     async def local(self, ctx):
         msg = ''
         argList = await ctx.bot.get_cmd_arg(ctx)
-        if len(argList) > 0:
+        if argList is not None and len(argList) > 0:
+            args = ' '.join(s for s in argList)
             for key in locals.LOCALS.keys():
-                if argList[0].lower() == key.lower():
+                if args.lower() == key.lower():
                     ctx.bot.guildLocals[str(ctx.guild.id)] = key
                     newEntry = ctx.bot.get_local_entry(
                         str(ctx.guild.id), newLocal=key)
@@ -93,16 +104,19 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
                         str(ctx.guild.id), newEntry=newEntry, update=True)
                     msg = await ctx.bot.build_msg(
                         ctx, msg,
-                        ctx.bot.get_guild_local(
-                        ctx.guild)['set_local_success'])
-        if len(msg) > 0:
-            await ctx.channel.send(msg)
+                        ctx.bot.get_localized_str(ctx, 'local_success')
+                            + ctx.bot.get_guild_local(
+                        ctx.guild)[args.upper()] + '.')
+            if len(msg) > 0:
+                await ctx.channel.send(msg)
+            else:
+                msg = await ctx.bot.build_msg(
+                ctx, msg, ctx.bot.get_localized_str(ctx, 'local_fail')
+                    + args + '.')
+                await ctx.channel.send(msg)
         else:
-            msg = await ctx.bot.build_msg(
-                ctx, msg, ctx.bot.get_guild_local(
-                ctx.guild)['set_local_fail'])
+            msg = ctx.bot.get_localized_str(ctx, 'missing_arg')
             await ctx.channel.send(msg)
-
 
     # Delete the last 20 messages in the Bot channel and close the Bot if Owner
     @commands.is_owner()

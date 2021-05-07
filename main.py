@@ -119,14 +119,18 @@ class KhaBot(commands.Bot):
                 currentLocal = v
         return locals.LOCALS[currentLocal]
 
+    def get_localized_str(self, ctx, key):
+        return ctx.bot.get_guild_local(ctx.guild)[key]
+
     async def get_cmd_arg(self, ctx):
         channel = ctx.channel
         arg = await channel.history(limit=1).flatten()
         arg = arg[0].content
-        i = 0
-        while arg[i] != ' ':
-            i += 1
-        return arg[i + 1:].split(' ')
+        arg = arg.split(' ')
+        if len(arg) == 1:
+            return None
+        else:
+            return arg[1:]
 
     async def build_msg(self, ctx, msg, *arg):
         msg = msg
