@@ -15,6 +15,7 @@ import webscrapper
 import locals
 import servers_locals
 import interactions
+import embed
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -57,6 +58,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         help=locals.HELP_LOCAL['have_help'])
     async def have(self, ctx):
         msg = ''
+        embed = None
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
         argList = await ctx.bot.get_cmd_arg(ctx)
@@ -133,3 +135,11 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
             messagesList = await ctx.channel.history(limit=20).flatten()
             await ctx.channel.delete_messages(messagesList)
         await ctx.bot.logout()
+
+    # Delete the last 20 messages in the Bot channel and close the Bot if Owner
+    @commands.is_owner()
+    @commands.command(
+        brief='Test Command for dev purposes.',
+        help="Test Command for dev purposes.")
+    async def test(self, ctx):
+        await ctx.channel.send(embed=embed.create_embed(ctx, ''))
