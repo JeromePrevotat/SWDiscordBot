@@ -57,15 +57,22 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         brief=locals.HELP_LOCAL['have_brief'],
         help=locals.HELP_LOCAL['have_help'])
     async def have(self, ctx):
-        msg = ''
-        embed = None
-        matches = []
-        charList = ctx.bot.client.get_from_api('characters')
         argList = await ctx.bot.get_cmd_arg(ctx)
+        effect = ''
         if argList is not None:
             effect = ' '.join(str(s) for s in argList).lower()
-            msg = ctx.bot.get_localized_str(ctx, 'have_success')\
-                + effect.capitalize() + ':\n'
+        fieldContent = ''
+        embedContent = {
+            'Header':None,
+            'Description':'%have ' + effect,
+            'Fields':[],
+            'Footer':None,
+            'Img':None,
+        }
+        matches = []
+        charList = ctx.bot.client.get_from_api('characters')
+        # Find all Characters matching Arg
+        if argList is not None:
             for charBaseId, charAbltList in interactions.ABLT_CLASSES.items():
                 for ablt in charAbltList:
                     if effect == ablt.lower():
@@ -73,15 +80,25 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             for charBaseId in matches:
                 for character in charList:
                     if charBaseId == character['base_id']:
-                        msg = await ctx.bot.build_msg(
-                            ctx, msg, character['name'])
+                        fieldContent += '- ' + character['name'] + '\n'
+            # Add all matches to a new Embed Field
+            if len(matches) > 0:
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Fields', embed.create_field(
+                        ctx.bot.get_localized_str(ctx, 'have_success')\
+                        + effect.capitalize() + ':\n', fieldContent))
+            # No match found
             if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
-                msg = ctx.bot.get_localized_str(ctx, 'have_fail')\
-                    + effect.capitalize() + '.'
+                embedContent = embed.add_embed_content(embedContent,
+                    'Description', ctx.bot.get_localized_str(ctx, 'have_fail')\
+                    + effect.capitalize() + ':\n')
+        # Invalid/Missing Args
         else:
-            msg = ctx.bot.get_localized_str(ctx, 'missing_arg')
-        if len(msg) > 0:
-            await ctx.channel.send(msg)
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        e = embed.create_embed(ctx, embedContent)
+        if e is not None:
+            await ctx.channel.send(embed=e)
 
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):
