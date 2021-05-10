@@ -67,7 +67,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             'Description':'%have ' + effect,
             'Fields':[],
             'Footer':None,
-            'Img':None,
+            'Img':webscrapper.get_ablt_img(effect),
         }
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
@@ -97,8 +97,11 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'missing_arg'))
         e = embed.create_embed(ctx, embedContent)
-        if e is not None:
+        if e is not None and len(e) < 6000:
             await ctx.channel.send(embed=e)
+        else:
+            await ctx.channel.send('Too many resulats to display.\
+                Try to narrow down your search parameters.')
 
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):

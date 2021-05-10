@@ -40,6 +40,8 @@ def create_embed(ctx, dictContent):
                 text=v[0],
                 icon_url=v[1]
             )
+        if k == 'Img' and v is not None:
+            embed.set_image(url=v)
     return embed
 
 def add_embed_content(currentContent, key, value):

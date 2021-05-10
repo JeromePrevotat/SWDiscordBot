@@ -10,23 +10,8 @@ import swgohgg
 import servers_locals
 
 if __name__ == '__main__':
-    #client = swgohgg.Swgohgg()
-    #charList = client.get_from_api('characters')
-
-    class Test():
-        def __init__(self):
-            self.d = {
-                'a':1,
-                'b':2,
-                'c':3,
-            }
-
-        def update_d(self):
-            self.d['b']=5
-
-        def print_d(self):
-            self.update_d()
-            print(self.d)
-
-    t = Test()
-    t.print_d()
+    client = swgohgg.Swgohgg()
+    charList = client.get_from_api('characters')
+    with open(os.path.join(os.getcwd() + os.sep + 'characters'), 'w+') as f:
+        for character in charList:
+            f.write('\'' + character['name'] + '\':\'' + character['name'] + '\',\n')
