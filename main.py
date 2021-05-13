@@ -24,6 +24,7 @@ load_dotenv(dotenv_path='./.env/config')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
 CWD = os.getcwd()
+DEFAULT_LOCAL = 'EN-US'
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -120,7 +121,17 @@ class KhaBot(commands.Bot):
         return locals.LOCALS[currentLocal]
 
     def get_localized_str(self, ctx, key):
+        """Returns a localized String for Success/Failure of a Command."""
         return ctx.bot.get_guild_local(ctx.guild)[key]
+
+    def get_localized_character(self, ctx, charName):
+        """Returns the Localized Character Name.
+        Default to EN-US if not yet translated."""
+        name = ''
+        name = ctx.bot.get_guild_local(ctx.guild)['Characters'][charName]
+        if name == '':
+            name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName]
+        return name
 
     async def get_cmd_arg(self, ctx):
         channel = ctx.channel

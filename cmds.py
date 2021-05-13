@@ -80,7 +80,8 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             for charBaseId in matches:
                 for character in charList:
                     if charBaseId == character['base_id']:
-                        fieldContent += '- ' + character['name'] + '\n'
+                        fieldContent += '- ' + ctx.bot.get_localized_character(
+                        ctx, character['name']) + '\n'
             # Add all matches to a new Embed Field
             if len(matches) > 0:
                 embedContent = embed.add_embed_content(
