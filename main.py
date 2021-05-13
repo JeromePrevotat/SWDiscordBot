@@ -25,6 +25,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
 CWD = os.getcwd()
 DEFAULT_LOCAL = 'EN-US'
+MAX_EMBED_LENGTH = 6000
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -142,6 +143,16 @@ class KhaBot(commands.Bot):
             return None
         else:
             return arg[1:]
+
+    async def send_embed(self, ctx, e):
+        if e is None:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'something_went_wrong'))
+        if len(e) >= MAX_EMBED_LENGTH:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'embed_too_long'))
+            e = embed.create_embed(ctx, embedContent)
+        await ctx.channel.send(embed=e)
 
     async def build_msg(self, ctx, msg, *arg):
         msg = msg

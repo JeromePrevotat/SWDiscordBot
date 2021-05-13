@@ -10,6 +10,8 @@ LOCALIZATIONS = [
         # COMMANDS
         # Missing arguments
         'missing_arg':'Missing arguments. Check %help for more informations.',
+        'embed_too_long':'Too many results to display. Try to narrow down your search parameters.',
+        'something_went_wrong':'Something went wrong. I have a bad feeling about this...',
         # Local
         'local_success':'Bot new local set to ',
         'local_fail':'Could not find local ',
@@ -334,8 +336,10 @@ LOCALIZATIONS = [
         'EN-US':'English',
         'FR-FR':'Français',
         # COMMANDS
-        # Missing arguments
+        # Miscellaneous
         'missing_arg':'Argument introuvable. Tappez %help pour plus d\'informations.',
+        'embed_too_long':'Trop de résultats à afficher. Essayer de réduire vos paramètres de recherche.',
+        'something_went_wrong':'Quelque chose ne s\'est pas passé comme prévu.',
         # Local
         'local_success':'Nouvelle langue du Bot ',
         'local_fail':'Impossible de trouver la langue ',

@@ -97,12 +97,11 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         else:
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        # Send the Embed
         e = embed.create_embed(ctx, embedContent)
-        if e is not None and len(e) < 6000:
-            await ctx.channel.send(embed=e)
-        else:
-            await ctx.channel.send('Too many resulats to display.\
-                Try to narrow down your search parameters.')
+        await ctx.bot.send_embed(ctx, e)
+
+
 
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):
