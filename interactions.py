@@ -516,6 +516,9 @@ ABLT_CLASSES = {
 	'BADBATCHECHO':['AoE', 'Assist', 'Buff Immunity', 'Daze', 'Cleanse',
 		'Evasion Up', 'Expose', 'TM Gain', 'Heal Immunity',
 		'CD Reduction', 'Defense Up', 'CD Increase', 'Mass Dispel'],
+	'COMMANDERAHSOKA':['Advantage', 'Assist', 'Counter', 'Dispel',
+		'Evasion Up', 'TM Gain', 'TM Swap', 'CD Reduction', 'Insta Kill',
+		'Critical Damage Up', 'Armor Shred', 'Stats Sharing'],
 }
 
 ABLT_CLASSES_LIST = [
@@ -524,7 +527,8 @@ ABLT_CLASSES_LIST = [
     'Bonus Attack', 'Bonus Turn', 'Breach', 'Buff Immunity', 'Buff Steal',
     'Burning', 'CD Increase', 'CD Reduction', 'CD Reset', 'Cleanse',
     'Confuse', 'Counter', 'Critical Chance Down', 'Critical Chance Up',
-    'Critical Damage Down', 'Critical Damage Up', 'Critical Immunity', 'Damage Immunity',
+    'Critical Damage Down', 'Critical Damage Up', 'Critical Immunity',
+	'Damage Immunity',
     'Daze', 'Deathmark', 'Defense Down', 'Defense Up', 'Dispel',
     'DoT', 'Evasion Down', 'Evasion Up', 'Expose', 'Fear', 'Foresight',
     'Frenzy', 'Heal', 'Heal Immunity', 'Health Down',
@@ -550,7 +554,10 @@ ABLT_CLASSES_LIST = [
 if __name__ == '__main__':
 	client = swgohgg.Swgohgg()
 	charList = client.get_from_api('characters')
+	tags = []
 	for character in charList:
-		if character['base_id'] == 'BADBATCHECHO':
-			for cat in character:
-				print(character[cat])
+		if character['base_id'] == 'COMMANDERAHSOKA':
+			with open(CWD + os.sep + 'trash', 'w+') as f:
+				f.write('\'{}\':{}\n'.format(character['base_id'],
+					character['ability_classes']))
+				f.write('\'{}\''.format(character['name']))
