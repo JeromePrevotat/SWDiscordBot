@@ -26,6 +26,7 @@ ARG_CHAR_LIMIT = 50
 CWD = os.getcwd()
 DEFAULT_LOCAL = 'EN-US'
 MAX_EMBED_LENGTH = 6000
+OPTIONS_LIST = ['-a','-t',]
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -42,12 +43,8 @@ class KhaBot(commands.Bot):
         self.guildLocals = servers_locals.SERVER_LOCALS
         #Swgoh.gg related stuff
         self.client = swgohgg.Swgohgg()
-        # Activates all Command instances of the Bot
-        #members = inspect.getmembers(self)
-        #for name, member in members:
-        #    if isinstance(member, commands.Command):
-        #        if member.parent is None:
-        #            self.add_command(member)
+        #Activates Commands
+        self.optionsList = OPTIONS_LIST
         self.add_cog(cmds.Bot_cmds(self))
         self.add_cog(cmds.Game_cmds(self))
 
@@ -135,14 +132,47 @@ class KhaBot(commands.Bot):
         return name
 
     async def get_cmd_arg(self, ctx):
+        """Returns a list of all Arguments passed to the Command, if any.
+        This list includes Options. If no Arguments, returns None."""
         channel = ctx.channel
         arg = await channel.history(limit=1).flatten()
         arg = arg[0].content
         arg = arg.split(' ')
+        argList = []
+        optList = []
+        cmd = arg[0]
         if len(arg) == 1:
-            return None
+            argList = None
+            optList = None
         else:
-            return arg[1:]
+            argList = arg[1:]
+            optList = self.get_cmd_options(argList)
+        return cmd, argList, optList
+
+    def get_cmd_options(self, argList):
+        """Returns a list of all Options passed to the Command, if any.
+        Return None if no Options are passed."""
+        options = []
+        for arg in argList:
+            if arg.startswith('-'):
+                options.append(arg)
+        if options != []:
+            return options
+        else:
+            return None
+
+    def get_main_arg(self, argList, optList):
+        """Returns the Main Argument passed to the Command."""
+        mainArg = ''
+        print(argList)
+        if optList is None:
+            mainArg = ' '.join(a for a in argList)
+        else:
+            i = 0
+            while i < len(argList) and argList[i] not in optList:
+                mainArg += argList[i].lower() + ' '
+                i += 1
+        return mainArg.strip()
 
     async def send_embed(self, ctx, e):
         if e is None:

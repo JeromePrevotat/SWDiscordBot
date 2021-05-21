@@ -29,6 +29,8 @@ CWD = os.getcwd()
 ###############################################################################
 
 class Game_cmds(commands.Cog, name='Game Commands'):
+    """Commands related directly to the Game."""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -57,10 +59,11 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         brief=locals.HELP_LOCAL['have_brief'],
         help=locals.HELP_LOCAL['have_help'])
     async def have(self, ctx):
-        argList = await ctx.bot.get_cmd_arg(ctx)
+        cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
         effect = ''
         if argList is not None:
-            effect = ' '.join(str(s) for s in argList).lower()
+            effect = ctx.bot.get_main_arg(argList, optList)
+            #effect = ' '.join(str(s) for s in argList).lower()
         fieldContent = ''
         embedContent = {
             'Header':None,
@@ -105,6 +108,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
 
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):
+    """Commands related to the Bot."""
     def __init__(self, bot):
         self.bot = bot
 
