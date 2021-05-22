@@ -42,6 +42,8 @@ def create_embed(ctx, dictContent):
             )
         if k == 'Img' and v is not None:
             embed.set_image(url=v)
+        if k == 'Thumbnail' and v is not None:
+            embed.set_thumbnail(url=v)
     return embed
 
 def add_embed_content(currentContent, key, value):

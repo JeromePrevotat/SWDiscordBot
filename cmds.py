@@ -23,6 +23,7 @@ import embed
 
 ARG_CHAR_LIMIT = 50
 CWD = os.getcwd()
+ABLT_IMG_SIZE = '?size=10'
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -63,14 +64,14 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         effect = ''
         if argList is not None:
             effect = ctx.bot.get_main_arg(argList, optList)
-            #effect = ' '.join(str(s) for s in argList).lower()
         fieldContent = ''
         embedContent = {
             'Header':None,
-            'Description':'%have ' + effect,
+            'Description': cmd + ' ' + effect,
             'Fields':[],
             'Footer':None,
-            'Img':webscrapper.get_ablt_img(effect),
+            'Img':None,
+            'Thumbnail':webscrapper.get_ablt_img(effect) + ABLT_IMG_SIZE,
         }
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
@@ -104,8 +105,44 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e)
 
-
-
+    @commands.command(
+        brief=locals.HELP_LOCAL['effect_list_brief'],
+        help=locals.HELP_LOCAL['effect_list_help'])
+    async def listeffects(self, ctx):
+        cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
+        fieldContent = ''
+        embedContent = {
+            'Header':None,
+            'Description': cmd + ' ' + effect,
+            'Fields':[],
+            'Footer':None,
+            'Img':None,
+            'Thumbnail':webscrapper.get_ablt_img(effect) + ABLT_IMG_SIZE,
+        }
+        matches = []
+        # Find all Matches
+        for effect in interactions.ABLT_CLASSES_LIST:
+            matches.append(effect)
+        for effect in matches:
+            fieldContent += '- ' + ctx.bot.get_localized_effect() + '\n'
+        # Add all matches to a new Embed Field
+        if len(matches) > 0:
+            embedContent = embed.add_embed_content(
+                embedContent, 'Fields', embed.create_field(
+                    ctx.bot.get_localized_str(ctx, 'have_success')\
+                    + effect.capitalize() + ':\n', fieldContent))
+        # No match found
+        if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
+            embedContent = embed.add_embed_content(embedContent,
+                'Description', ctx.bot.get_localized_str(ctx, 'have_fail')\
+                + effect.capitalize() + ':\n')
+        # Invalid/Missing Args
+        else:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        # Send the Embed
+        e = embed.create_embed(ctx, embedContent)
+        await ctx.bot.send_embed(ctx, e)
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):
     """Commands related to the Bot."""
