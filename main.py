@@ -20,10 +20,10 @@ import cmds
 #                         CONSTANTS                                           #
 ###############################################################################
 
-load_dotenv(dotenv_path='./.env/config')
+CWD = os.getcwd()
+load_dotenv(dotenv_path=CWD + os.sep + '.env')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
-CWD = os.getcwd()
 DEFAULT_LOCAL = 'EN-US'
 MAX_EMBED_LENGTH = 6000
 OPTIONS_LIST = ['-a','-t',]
