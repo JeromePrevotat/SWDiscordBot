@@ -18,7 +18,13 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Characters with ',
         'have_fail':'No Character seems to interact with ',
+        # Effects
+        'effects_success':'Here are all ',
         # Status Effects
+        'Buffs':'Buffs',
+        'Debuffs':'Debuffs',
+        'Miscs':'Miscs',
+        'Leads':'Leads',
         'Status Effects':{
             'Ability Block':'Ability Block',
             'Accuracy Down':'Accuracy Down',
@@ -347,7 +353,13 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Personnages avec ',
         'have_fail':'Aucun personnage ne semble interagir avec ',
-        # Ability Classes
+        # Effects
+        'effects_success':'Voici tous les Effets de Statut ',
+        # Status Effects
+        'Buffs':'Positifs',
+        'Debuffs':'Négatifs',
+        'Miscs':'Divers',
+        'Leads':'Chef',
         'Status Effects':{
             'Ability Block':'',
             'Accuracy Down':'',
@@ -373,7 +385,7 @@ LOCALIZATIONS = [
             'Critical Chance Up':'',
             'Critical Damage Down':'',
             'Critical Damage Up':'',
-            'Critical Immunity':'',
+            'Critical Hit Immunity':'',
             'Damage Immunity':'Immunité aux Dégâts',
             'Daze':'',
             'Deathmark':'Marque de mort',
@@ -683,4 +695,7 @@ HELP_LOCAL = {
     # Have
     'have_brief':'Who interacts with a specified Status Effect.',
     'have_help':'Returns a List of Characters that have an interaction with the specified Status Effect.',
+    # Effects
+    'effects_brief':'Lists all Status Effects.',
+    'effects_help':'Lists all Status Effects.',
     }

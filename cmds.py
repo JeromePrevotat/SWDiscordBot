@@ -23,8 +23,6 @@ import embed
 
 ARG_CHAR_LIMIT = 50
 CWD = os.getcwd()
-ABLT_IMG_SIZE = '?size=10'
-
 ###############################################################################
 #                         CLASSES                                             #
 ###############################################################################
@@ -71,7 +69,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             'Fields':[],
             'Footer':None,
             'Img':None,
-            'Thumbnail':webscrapper.get_ablt_img(effect) + ABLT_IMG_SIZE,
+            'Thumbnail':webscrapper.get_ablt_img(effect),
         }
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
@@ -79,7 +77,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         if argList is not None:
             for charBaseId, charAbltList in interactions.ABLT_CLASSES.items():
                 for ablt in charAbltList:
-                    if effect == ablt.lower():
+                    if effect.lower() == ablt.lower():
                         matches.append(charBaseId)
             for charBaseId in matches:
                 for character in charList:
@@ -103,46 +101,41 @@ class Game_cmds(commands.Cog, name='Game Commands'):
                 ctx.bot.get_localized_str(ctx, 'missing_arg'))
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
-        await ctx.bot.send_embed(ctx, e)
+        await ctx.bot.send_embed(ctx, e, cmd)
 
     @commands.command(
-        brief=locals.HELP_LOCAL['effect_list_brief'],
-        help=locals.HELP_LOCAL['effect_list_help'])
-    async def listeffects(self, ctx):
+        brief=locals.HELP_LOCAL['effects_brief'],
+        help=locals.HELP_LOCAL['effects_help'])
+    async def effects(self, ctx):
         cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
         fieldContent = ''
         embedContent = {
             'Header':None,
-            'Description': cmd + ' ' + effect,
+            'Description': cmd,
             'Fields':[],
             'Footer':None,
             'Img':None,
-            'Thumbnail':webscrapper.get_ablt_img(effect) + ABLT_IMG_SIZE,
+            'Thumbnail':None,
         }
         matches = []
         # Find all Matches
-        for effect in interactions.ABLT_CLASSES_LIST:
-            matches.append(effect)
-        for effect in matches:
-            fieldContent += '- ' + ctx.bot.get_localized_effect() + '\n'
-        # Add all matches to a new Embed Field
-        if len(matches) > 0:
+        for k,v in interactions.ABLT_CLASSES_LIST.items():
+            matches.clear()
+            fieldContent = ''
+            effectType = ctx.bot.get_localized_str(ctx, k)
+            fieldTitle = ctx.bot.get_localized_str(ctx, 'effects_success')
+            for effect in v:
+                matches.append(effect)
+            # Add all matches to a new Embed Field
+            for effect in matches:
+                fieldContent += '- ' + ctx.bot.get_localized_effect(
+                    ctx, effect) + '\n'
             embedContent = embed.add_embed_content(
                 embedContent, 'Fields', embed.create_field(
-                    ctx.bot.get_localized_str(ctx, 'have_success')\
-                    + effect.capitalize() + ':\n', fieldContent))
-        # No match found
-        if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
-            embedContent = embed.add_embed_content(embedContent,
-                'Description', ctx.bot.get_localized_str(ctx, 'have_fail')\
-                + effect.capitalize() + ':\n')
-        # Invalid/Missing Args
-        else:
-            embedContent = embed.add_embed_content(embedContent, 'Description',
-                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+                    fieldTitle + effectType + ':\n', fieldContent))
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
-        await ctx.bot.send_embed(ctx, e)
+        await ctx.bot.send_embed(ctx, e, cmd)
 
 class Bot_cmds(commands.Cog, name='Bot Commands'):
     """Commands related to the Bot."""

@@ -15,6 +15,7 @@ import webscrapper
 import locals
 import servers_locals
 import cmds
+import embed
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -131,6 +132,15 @@ class KhaBot(commands.Bot):
             name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName]
         return name
 
+    def get_localized_effect(self, ctx, effect):
+        """Returns the Localized Status Effect.
+        Default to EN-US if not yet translated."""
+        name = ''
+        name = ctx.bot.get_guild_local(ctx.guild)['Status Effects'][effect]
+        if name == '':
+            name = locals.LOCALS[DEFAULT_LOCAL]['Status Effects'][effect]
+        return name
+
     async def get_cmd_arg(self, ctx):
         """Returns a list of all Arguments passed to the Command, if any.
         This list includes Options. If no Arguments, returns None."""
@@ -174,10 +184,19 @@ class KhaBot(commands.Bot):
                 i += 1
         return mainArg.strip()
 
-    async def send_embed(self, ctx, e):
+    async def send_embed(self, ctx, e, cmd):
+        embedContent = {
+            'Header':None,
+            'Description': cmd,
+            'Fields':[],
+            'Footer':None,
+            'Img':None,
+            'Thumbnail':None,
+        }
         if e is None:
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'something_went_wrong'))
+            e = embed.create_embed(ctx, embedContent)
         if len(e) >= MAX_EMBED_LENGTH:
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'embed_too_long'))

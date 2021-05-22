@@ -10,10 +10,17 @@ import swgohgg
 import servers_locals
 
 if __name__ == '__main__':
-    # TESTS NEEDED
-    # EMBED LEN > 6000
-    client = swgohgg.Swgohgg()
-    charList = client.get_from_api('characters')
-    with open(os.path.join(os.getcwd() + os.sep + 'characters'), 'w+') as f:
-        for character in charList:
-            f.write('\'' + character['name'] + '\':\'' + character['name'] + '\',\n')
+    LEADS = ['Leader: +Counter', 'Leader: +Critical Avoid',
+	'Leader: +Critical Chance', 'Leader: +Critical Damage',
+	'Leader: +Defense', 'Leader: +Evasion',
+	'Leader: +Mastery', 'Leader: +Max Health', 'Leader: +Max Protection',
+	'Leader: +Offense', 'Leader: +Potency',
+	'Leader: +Speed', 'Leader: +Tenacity', 'Leader: -Defense',
+	'Leader: -Potency', 'Leader: -Speed', 'Leader: Assist',
+	'Leader: CD Reduction', 'Leader: Critical Avoid', 'Leader: Protection Up',
+	'Leader: TM Gain', 'Leader: TMR']
+    fieldContent = ''
+    for effect in LEADS:
+        fieldContent += '- ' + effect + '\n'
+    print(fieldContent)
+    print(len(fieldContent))
