@@ -37,7 +37,7 @@ class KhaBot(commands.Bot):
 
     def __init__(self):
         #Discord related stuff
-        super().__init__(command_prefix='%')
+        super().__init__(command_prefix='%k ')
         self._intents = discord.Intents.default()
         self._intents.members=True
         self.chanList = {}
