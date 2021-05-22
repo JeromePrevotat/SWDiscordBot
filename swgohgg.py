@@ -29,11 +29,12 @@ SHIP_ABLT = 5
 class Swgohgg():
     def __init__(self):
         self.baseUrl = 'https://swgoh.gg/api/'
-        self.categoryUrl = {'abilities':'abilities/',
-                        'characters':'characters/',
-                        'ships':'ships/',
-                        'token-balance':'token-balance/',
-                        }
+        self.categoryUrl = {
+            'abilities':'abilities/',
+            'characters':'characters/',
+            'ships':'ships/',
+            'token-balance':'token-balance/',
+        }
 
     def get_from_api(self, category):
         fullUrl = self.baseUrl + self.categoryUrl[category]

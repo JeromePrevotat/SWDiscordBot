@@ -12,6 +12,9 @@ from discord.ext import commands
 
 import swgohgg
 import webscrapper
+import locals
+import servers_locals
+import cmds
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -20,6 +23,10 @@ import webscrapper
 load_dotenv(dotenv_path='./.env/config')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
+CWD = os.getcwd()
+DEFAULT_LOCAL = 'EN-US'
+MAX_EMBED_LENGTH = 6000
+OPTIONS_LIST = ['-a','-t',]
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -33,19 +40,19 @@ class KhaBot(commands.Bot):
         self._intents = discord.Intents.default()
         self._intents.members=True
         self.chanList = {}
+        self.guildLocals = servers_locals.SERVER_LOCALS
         #Swgoh.gg related stuff
         self.client = swgohgg.Swgohgg()
-        # Activates all Command instances of the Bot
-        members = inspect.getmembers(self)
-        for name, member in members:
-            if isinstance(member, commands.Command):
-                if member.parent is None:
-                    self.add_command(member)
+        #Activates Commands
+        self.optionsList = OPTIONS_LIST
+        self.add_cog(cmds.Bot_cmds(self))
+        self.add_cog(cmds.Game_cmds(self))
 
     # On connection
     async def on_ready(self):
-        for g in self.guilds:
-            for c in g.channels:
+        for guild in self.guilds:
+            self.set_guild_locals(guild)
+            for c in guild.channels:
                 if(type(c)==discord.TextChannel
                     and c.name.lower() == 'khabot'
                     and c.permissions_for(
@@ -56,17 +63,126 @@ class KhaBot(commands.Bot):
                         member = discord.utils.find(
                             lambda m: m.id == self.user.id, c.guild.members)
                         ).send_messages==True):
-                        self.chanList[g] = c
+                        self.chanList[guild] = c
                         await c.send(f'{self.user.display_name} has awoken !')
 
+    async def on_guild_join(self, guild):
+        """On joining a new server, sets the default local."""
+        self.set_guild_locals(guild)
+
+    def get_local_entry(self, guildId, newLocal):
+        """Return a formated string to fill in servers_locals file."""
+        newEntry = '\t\'{}\':\'{}\',\n'.format(
+            guildId, newLocal)
+        return newEntry
+
+    def set_guild_locals(self, guild):
+        """Sets locals of all server either from the server_locals file,
+        or default it to EN-US if this is the first connection."""
+        guildId = str(guild.id)
+        # New entry if this is a new server
+        if guildId not in self.guildLocals.keys():
+            self.guildLocals[guildId] = locals.EN_US
+            # Update the file where entries are stored
+            newEntry = self.get_local_entry(guildId, self.guildLocals[guildId])
+            self.update_locals_file(guildId, newEntry)
+
+    def update_locals_file(self, guildId, newEntry=None, update=None):
+        """Update the server_locals file."""
+        line = ''
+        #Set default Local to EN-US
+        if newEntry is None:
+            newEntry = get_local_entry(guildId, locals.EN_US)
+        with open(os.path.join(CWD + os.sep + 'servers_locals.py'), 'r') as f:
+            with open(os.path.join(
+                    CWD + os.sep + 'new_servers_locals.py'), 'w+') as new_f:
+                line = f.readline()
+                while line != '':
+                    if (update and line.strip()[1:len(guildId)+1] == guildId):
+                        line = f.readline()
+                    if line == '}' or line == '}\n':
+                        line = f.readline()
+                    new_f.write(line)
+                    line = f.readline()
+                new_f.write(newEntry)
+                new_f.write('}')
+        # Replace the old file by the new one
+        os.remove(os.path.join(CWD + os.sep + 'servers_locals.py'))
+        os.rename(os.path.join(CWD + os.sep + 'new_servers_locals.py'),
+            os.path.join(CWD + os.sep + 'servers_locals.py'))
+
+    def get_guild_local(self, guild):
+        currentLocal = ''
+        for k,v in self.guildLocals.items():
+            if k == str(guild.id):
+                currentLocal = v
+        return locals.LOCALS[currentLocal]
+
+    def get_localized_str(self, ctx, key):
+        """Returns a localized String for Success/Failure of a Command."""
+        return ctx.bot.get_guild_local(ctx.guild)[key]
+
+    def get_localized_character(self, ctx, charName):
+        """Returns the Localized Character Name.
+        Default to EN-US if not yet translated."""
+        name = ''
+        name = ctx.bot.get_guild_local(ctx.guild)['Characters'][charName]
+        if name == '':
+            name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName]
+        return name
+
     async def get_cmd_arg(self, ctx):
+        """Returns a list of all Arguments passed to the Command, if any.
+        This list includes Options. If no Arguments, returns None."""
         channel = ctx.channel
         arg = await channel.history(limit=1).flatten()
         arg = arg[0].content
-        i = 0
-        while arg[i] != ' ':
-            i += 1
-        return arg[i + 1:].split(' ')
+        arg = arg.split(' ')
+        argList = []
+        optList = []
+        cmd = arg[0]
+        if len(arg) == 1:
+            argList = None
+            optList = None
+        else:
+            argList = arg[1:]
+            optList = self.get_cmd_options(argList)
+        return cmd, argList, optList
+
+    def get_cmd_options(self, argList):
+        """Returns a list of all Options passed to the Command, if any.
+        Return None if no Options are passed."""
+        options = []
+        for arg in argList:
+            if arg.startswith('-'):
+                options.append(arg)
+        if options != []:
+            return options
+        else:
+            return None
+
+    def get_main_arg(self, argList, optList):
+        """Returns the Main Argument passed to the Command."""
+        mainArg = ''
+        print(argList)
+        if optList is None:
+            mainArg = ' '.join(a for a in argList)
+        else:
+            i = 0
+            while i < len(argList) and argList[i] not in optList:
+                mainArg += argList[i].lower() + ' '
+                i += 1
+        return mainArg.strip()
+
+    async def send_embed(self, ctx, e):
+        if e is None:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'something_went_wrong'))
+        if len(e) >= MAX_EMBED_LENGTH:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'embed_too_long'))
+            e = embed.create_embed(ctx, embedContent)
+        await ctx.channel.send(embed=e)
 
     async def build_msg(self, ctx, msg, *arg):
         msg = msg
@@ -93,64 +209,6 @@ class KhaBot(commands.Bot):
 
     async def send_msg(self, ctx, msg):
         if check_channel_permissions(ctx):
-            await ctx.channel.send(msg)
-
-    # Delete the last 20 messages in the Bot channel and close the Bot if Owner
-    @commands.is_owner()
-    @commands.command(
-        brief='Delete last 20 messages then close khabot.',
-        help="Delete the last 20 messages from the channel then close the \
-            bot if you are it's owner.")
-    async def die(ctx):
-        if (ctx.bot.check_channel_permissions(ctx)
-            and ctx.channel.permissions_for(
-            member = discord.utils.find(
-                lambda m: m.id == ctx.bot.user.id, ctx.channel.guild.members)
-            ).manage_messages==True):
-            messagesList = await ctx.channel.history(limit=20).flatten()
-            await ctx.channel.delete_messages(messagesList)
-        await ctx.bot.logout()
-
-    @commands.command(
-        brief='Returns a Character.',
-        help='Returns a Character.')
-    async def who(ctx):
-        msg = 'Working on it.'
-        await ctx.channel.send(msg)
-
-    @commands.command(
-        brief='Returns the Basic Ability of a specified Character.',
-        help='Returns the Basic Ability of a specified Character.')
-    async def basic(ctx):
-        msg = 'Working on it.'
-        await ctx.channel.send(msg)
-
-    @commands.command(
-        brief='Returns all the Abilities of a specified Character.',
-        help='Returns all the Abilities of a specified Character.')
-    async def kit(ctx):
-        msg = 'Working on it.'
-        await ctx.channel.send(msg)
-
-    @commands.command(
-        brief='Who interacts with a specified Status Effect.',
-        help='Returns a List of Characters that have an interaction with the\
-        specified Status Effect.')
-    async def have(ctx):
-        msg = ''
-        matches = []
-        charList = ctx.bot.client.get_from_api('characters')
-        abltClassList = ctx.bot.client.get_ability_class_list(charList)
-        argList = await ctx.bot.get_cmd_arg(ctx)
-        for character in charList:
-            for abltClass in character['ability_classes']:
-                if argList[0].lower() == abltClass.lower():
-                    matches.append(character['name'])
-        if len(matches) == 0 and len(argList[0]) < ARG_CHAR_LIMIT:
-            msg = 'No Character seems to interact with ' + argList[0] + '.'
-        for character in matches:
-            msg = await ctx.bot.build_msg(ctx, msg, character)
-        if len(msg) > 0:
             await ctx.channel.send(msg)
 
 
