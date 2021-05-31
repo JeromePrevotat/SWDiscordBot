@@ -149,9 +149,8 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
         brief=locals.HELP_LOCAL['local_brief'],
         help=locals.HELP_LOCAL['local_help'])
     async def local(self, ctx):
-        msg = ''
-        argList = await ctx.bot.get_cmd_arg(
-            ctx.bot.get_channel_last_msg(ctx))
+        msg = await ctx.bot.get_channel_last_msg(ctx)
+        cmd, argList, optList = ctx.bot.get_cmd_arg(msg)
         if argList is not None and len(argList) > 0:
             args = ' '.join(s for s in argList)
             for key in locals.LOCALS.keys():

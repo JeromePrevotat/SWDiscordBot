@@ -10,12 +10,12 @@ import khabot
 ###############################################################################
 
 class TestGetCmdArg(unittest.TestCase):
-    """Test Command Parsing."""
+    """Tests Command Arguments Parsing."""
     def setUp(self):
         self.prefix = khabot.bot.PREFIX
         self.testBot = khabot.bot.KhaBot()
         self.cmdList = [
-            'effects', 'have', 'help',
+            'effects', 'have', 'local', 'help',
         ]
         self.oneWordArg = 'yolo'
         self.manyWordArg = 'yolo1 yolo2 yolo3 this make no sens at all !'
