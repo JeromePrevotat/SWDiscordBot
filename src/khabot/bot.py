@@ -10,12 +10,8 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 
-import swgohgg
-import webscrapper
-import locals
 import servers_locals
-import cmds
-import embed
+from khabot import swgohgg, webscrapper, locals, cmds, embed
 
 ###############################################################################
 #                         CONSTANTS                                           #

@@ -3,12 +3,12 @@
 ###############################################################################
 
 import os
+from datetime import datetime
 
 import discord
 
-import locals
 import servers_locals
-from datetime import datetime
+from khabot import locals
 
 ###############################################################################
 #                         CONSTANTS                                           #

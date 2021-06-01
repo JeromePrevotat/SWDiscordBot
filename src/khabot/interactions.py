@@ -4,7 +4,7 @@
 
 import os
 
-import swgohgg
+from khabot import swgohgg
 
 ###############################################################################
 #                         CONSTANTS                                           #

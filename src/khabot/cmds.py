@@ -10,12 +10,8 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 
-import swgohgg
-import webscrapper
-import locals
 import servers_locals
-import interactions
-import embed
+from khabot import swgohgg, webscrapper, locals, interactions, embed
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -54,6 +50,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         msg = 'Working on it.'
         await ctx.channel.send(msg)
 
+    # DONE
     @commands.command(
         brief=locals.HELP_LOCAL['have_brief'],
         help=locals.HELP_LOCAL['have_help'])
@@ -104,6 +101,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e, cmd)
 
+    # DONE
     @commands.command(
         brief=locals.HELP_LOCAL['effects_brief'],
         help=locals.HELP_LOCAL['effects_help'])
@@ -151,30 +149,41 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
     async def local(self, ctx):
         msg = await ctx.bot.get_channel_last_msg(ctx)
         cmd, argList, optList = ctx.bot.get_cmd_arg(msg)
+        fieldContent = ''
+        embedContent = {
+            'Header':None,
+            'Description': ' '.join(cmd, argList),
+            'Fields':[],
+            'Footer':None,
+            'Img':None,
+            'Thumbnail':None,
+        }
         if argList is not None and len(argList) > 0:
             args = ' '.join(s for s in argList)
-            for key in locals.LOCALS.keys():
-                if args.lower() == key.lower():
-                    ctx.bot.guildLocals[str(ctx.guild.id)] = key
-                    newEntry = ctx.bot.get_local_entry(
-                        str(ctx.guild.id), newLocal=key)
-                    ctx.bot.update_locals_file(
-                        str(ctx.guild.id), newEntry=newEntry, update=True)
-                    msg = await ctx.bot.build_msg(
-                        ctx, msg,
-                        ctx.bot.get_localized_str(ctx, 'local_success')
-                            + ctx.bot.get_guild_local(
-                        ctx.guild)[args.upper()] + '.')
-            if len(msg) > 0:
-                await ctx.channel.send(msg)
+            # Local exists
+            if args.lower() in [key.lower() for key in locals.LOCALS.keys()]:
+                ctx.bot.guildLocals[str(ctx.guild.id)] = key
+                newEntry = ctx.bot.get_local_entry(
+                    str(ctx.guild.id), newLocal=key)
+                ctx.bot.update_locals_file(
+                    str(ctx.guild.id), newEntry=newEntry, update=True)
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Fields', embed.create_field(
+                        ctx.bot.get_localized_str(ctx, 'local_success')\
+                        + args.capitalize() + '.', fieldContent))
+            # Local is not yet implemented
             else:
-                msg = await ctx.bot.build_msg(
-                ctx, msg, ctx.bot.get_localized_str(ctx, 'local_fail')
-                    + args + '.')
-                await ctx.channel.send(msg)
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Fields', embed.create_field(
+                        ctx.bot.get_localized_str(ctx, 'local_fail')\
+                        + args.capitalize() + '.\n', fieldContent))
+        # Missing arguments
         else:
-            msg = ctx.bot.get_localized_str(ctx, 'missing_arg')
-            await ctx.channel.send(msg)
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        # Send the embed
+        e = embed.create_embed(ctx, embedContent)
+        await ctx.bot.send_embed(ctx, e, cmd)
 
     # Delete the last 20 messages in the Bot channel and close the Bot if Owner
     @commands.is_owner()
