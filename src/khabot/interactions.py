@@ -10,7 +10,7 @@ from khabot import swgohgg
 #                         CONSTANTS                                           #
 ###############################################################################
 
-CWD = os.getcwd()
+FILEDIR = os.path.dirname(os.path.abspath(__file__))
 
 ABLT_CLASSES = {
 	'AAYLASECURA':['Assist', 'Counter', 'Leader: +Tenacity', 'Stun'],
@@ -561,7 +561,7 @@ if __name__ == '__main__':
 	tags = []
 	for character in charList:
 		if character['base_id'] == 'COMMANDERAHSOKA':
-			with open(CWD + os.sep + 'trash', 'w+') as f:
+			with open(os.path.join(FILEDIR,'trash'), 'w+') as f:
 				f.write('\'{}\':{}\n'.format(character['base_id'],
 					character['ability_classes']))
 				f.write('\'{}\''.format(character['name']))

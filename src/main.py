@@ -3,6 +3,7 @@
 ###############################################################################
 
 import os
+
 from dotenv import load_dotenv
 
 import khabot
@@ -11,8 +12,8 @@ import khabot
 #                         CONSTANTS                                           #
 ###############################################################################
 
-ENV = os.path.join(os.path.dirname(os.path.abspath(__file__)) + os.sep + '..'
-    + os.sep + '.env' + os.sep + 'config')
+ENV = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+    '..', '.env', 'config')
 load_dotenv(dotenv_path=ENV)
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
