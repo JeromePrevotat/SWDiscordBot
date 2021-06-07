@@ -315,7 +315,7 @@ LOCALIZATIONS = [
             'Tusken Raider':'Tusken Raider',
             'Tusken Shaman':'Tusken Shaman',
             'Ugnaught':'Ugnaught',
-            'URoRRuR'R'R':'URoRRuR'R'R',
+            'URoRRuR\'R\'R':'URoRRuR\'R\'R',
             'Vandor Chewbacca':'Vandor Chewbacca',
             'Veteran Smuggler Chewbacca':'Veteran Smuggler Chewbacca',
             'Veteran Smuggler Han Solo':'Veteran Smuggler Han Solo',
