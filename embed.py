@@ -54,5 +54,5 @@ def add_embed_content(currentContent, key, value):
         content[key] = value
     return content
 
-def create_field(fieldTitle, fieldContent, inline=False):
+def create_field(fieldTitle, fieldContent, inline=True):
     return [fieldTitle, fieldContent, inline]

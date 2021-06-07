@@ -15,6 +15,7 @@ import webscrapper
 import locals
 import servers_locals
 import cmds
+import embed
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -27,6 +28,7 @@ ARG_CHAR_LIMIT = 50
 DEFAULT_LOCAL = 'EN-US'
 MAX_EMBED_LENGTH = 6000
 OPTIONS_LIST = ['-a','-t',]
+PREFIX = '%k'
 
 ###############################################################################
 #                         CLASSES                                             #
@@ -36,7 +38,7 @@ class KhaBot(commands.Bot):
 
     def __init__(self):
         #Discord related stuff
-        super().__init__(command_prefix='%')
+        super().__init__(command_prefix=PREFIX + ' ')
         self._intents = discord.Intents.default()
         self._intents.members=True
         self.chanList = {}
@@ -131,6 +133,15 @@ class KhaBot(commands.Bot):
             name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName]
         return name
 
+    def get_localized_effect(self, ctx, effect):
+        """Returns the Localized Status Effect.
+        Default to EN-US if not yet translated."""
+        name = ''
+        name = ctx.bot.get_guild_local(ctx.guild)['Status Effects'][effect]
+        if name == '':
+            name = locals.LOCALS[DEFAULT_LOCAL]['Status Effects'][effect]
+        return name
+
     async def get_cmd_arg(self, ctx):
         """Returns a list of all Arguments passed to the Command, if any.
         This list includes Options. If no Arguments, returns None."""
@@ -140,12 +151,12 @@ class KhaBot(commands.Bot):
         arg = arg.split(' ')
         argList = []
         optList = []
-        cmd = arg[0]
-        if len(arg) == 1:
+        cmd = arg[0] + ' ' + arg[1]
+        if len(arg) == 2:
             argList = None
             optList = None
         else:
-            argList = arg[1:]
+            argList = arg[2:]
             optList = self.get_cmd_options(argList)
         return cmd, argList, optList
 
@@ -174,10 +185,19 @@ class KhaBot(commands.Bot):
                 i += 1
         return mainArg.strip()
 
-    async def send_embed(self, ctx, e):
+    async def send_embed(self, ctx, e, cmd):
+        embedContent = {
+            'Header':None,
+            'Description': cmd,
+            'Fields':[],
+            'Footer':None,
+            'Img':None,
+            'Thumbnail':None,
+        }
         if e is None:
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'something_went_wrong'))
+            e = embed.create_embed(ctx, embedContent)
         if len(e) >= MAX_EMBED_LENGTH:
             embedContent = embed.add_embed_content(embedContent, 'Description',
                 ctx.bot.get_localized_str(ctx, 'embed_too_long'))
