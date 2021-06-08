@@ -11,3 +11,4 @@ from khabot import webscrapper
 from khabot import locals
 from khabot import cmds
 from khabot import embed
+from khabot import logs
