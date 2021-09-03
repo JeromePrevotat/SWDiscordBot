@@ -37,6 +37,23 @@ ABLT_CLASSES = {
 	'B2SUPERBATTLEDROID':['AoE', 'Buff Immunity', 'Dispel',
         'Mass Dispel', 'TM Gain', 'CD Reduction',
         'Target Lock', 'Critical Damage Down'],
+	'BADBATCHHUNTER':['AoE', 'Bonus Attack', 'Counter', 'Defense Up',
+        'Evasion Up', 'Expose', 'TM Gain', 'Leader: +Defense',
+        'Leader: +Evasion', 'Leader: +Max Health', 'Offense Up', 'TMR',
+        'Stealth', 'Stun', 'Target Lock', 'Critical Chance Up',
+        'TM Swap', 'Leader: +Max Protection', 'Leader: +Potency',
+        'True Damage'],
+	'BADBATCHWRECKER':['AoE', 'Bonus Attack', 'Defense Up', 'Mass Dispel',
+        'TM Gain', 'Speed Down', 'Stun', 'Taunt', 'Tenacity Up'],
+	'BADBATCHECHO':['AoE', 'Assist', 'Buff Immunity', 'Daze', 'Cleanse',
+		'Evasion Up', 'Expose', 'TM Gain', 'Heal Immunity',
+		'CD Reduction', 'Defense Up', 'CD Increase', 'Mass Dispel'],
+	'BADBATCHOMEGA':['Blind', 'Daze', 'Target Lock', 'TMR', 'Stats Stacking',
+	    'Cleanse', 'Stealth', 'Protection Up', 'Defense Penetration Up',
+		'TM Gain', 'Protection Over Time', 'Assist'],
+	'BADBATCHTECH':['Target Lock', 'Heal', 'Potency Up', 'Stealth',
+		'Translation', 'Mass Cleanse', 'Foresight', 'Stealth', 'Tenacity Up',
+		'AoE', 'Stun'],
 	'BARRISSOFFEE':['Defense Up', 'Cleanse', 'TM Gain', 'Heal',
         'Leader: +Max Health', 'TMR', 'Health Equalization'],
 	'BASTILASHAN':['Ability Block', 'Advantage', 'Assist', 'Buff Immunity',
@@ -107,6 +124,9 @@ ABLT_CLASSES = {
         'Leader: +Defense', 'TMR', 'Taunt'],
 	'COLONELSTARCK':['AoE', 'Defense Down', 'Dispel', 'TM Gain', 'TMR',
         'Critical Chance Up', 'Critical Damage Up', 'Stagger', 'CD Reduction'],
+	'COMMANDERAHSOKA':['Advantage', 'Assist', 'Mass Assist', 'Counter', 'Dispel',
+	    'Evasion Up', 'TM Gain', 'TM Swap', 'CD Reduction', 'Insta Kill',
+	    'Critical Damage Up', 'Armor Shred', 'Stats Sharing'],
 	'COMMANDERLUKESKYWALKER':['Buff Immunity', 'Counter', 'Defense Down',
         'Cleanse', 'TM Gain', 'Leader: +Defense', 'TMR', 'Speed Down',
         'Stun', 'Taunt', 'Tenacity Down', 'Heal', 'Leader: +Offense',
@@ -245,12 +265,6 @@ ABLT_CLASSES = {
 	'HOTHREBELSCOUT':['TM Gain', 'Stun'],
 	'HOTHREBELSOLDIER':['Counter', 'Defense Up', 'Offense Down', 'Taunt',
         'Health Up'],
-	'BADBATCHHUNTER':['AoE', 'Bonus Attack', 'Counter', 'Defense Up',
-        'Evasion Up', 'Expose', 'TM Gain', 'Leader: +Defense',
-        'Leader: +Evasion', 'Leader: +Max Health', 'Offense Up', 'TMR',
-        'Stealth', 'Stun', 'Target Lock', 'Critical Chance Up',
-        'TM Swap', 'Leader: +Max Protection', 'Leader: +Potency',
-        'True Damage'],
 	'MAGNAGUARD':['AoE', 'Counter', 'Dispel', 'CD Reset', 'Speed Up',
         'Stealth', 'Stun', 'Target Lock', 'Taunt', 'Cleanse',
         'Mass Cleanse', 'Bonus Turn'],
@@ -292,6 +306,11 @@ ABLT_CLASSES = {
         'Mass Cleanse', 'Heal', 'Critical Damage Up', 'TM Swap', 'Marked',
         'CD Increase', 'TMR', 'Leader: +Critical Chance', 'Cleanse',
         'Critical Hit Immunity', 'Bonus Turn'],
+	'JEDIMASTERKENOBI':['Mass Cleanse', 'Protection Up', 'Heal', 'Counter',
+	    'Ability Block', 'Defense Penetration Up', 'Vulnerable',
+	    'Heal Immunity', 'Assist', 'Foresight', 'Tenacity Up', 'Damage Immunity',
+	    'CD Reset', 'Leader: +Mastery', 'Leader: +Max Health', 'Leader: +Speed',
+	    'Leader: Protection Up', 'Stats Stacking'],
 	'GRANDMASTERLUKE':['Ability Block', 'Advantage', 'AoE', 'Assist',
         'Buff Immunity', 'Counter', 'Daze', 'Defense Up',
         'Expose', 'TM Gain', 'Leader: +Max Health',
@@ -341,6 +360,9 @@ ABLT_CLASSES = {
 	'MACEWINDU':['Dispel', 'Expose', 'TM Gain', 'Leader: +Critical Chance',
         'Leader: +Offense'],
 	'MAGMATROOPER':['AoE', 'TM Gain', 'TMR'],
+	'MAULS7':['Dispel', 'Offense Down', 'True Damage', 'Buff Immunity',
+	    'CD Increase', 'Bonus Turn', 'Leader: +Max Health', 'Leader: +Offense',
+	    'Frenzy', 'Retribution', 'Counter'],
 	'MISSIONVAO':['Assist', 'Daze', 'Cleanse', 'DoT', 'TM Gain',
         'Stealth', 'Protection Up', 'Blind'],
 	'HUMANTHUG':['Defense Down', 'TM Gain', 'Offense Up',
@@ -511,21 +533,13 @@ ABLT_CLASSES = {
 	'ZAMWESELL':['AoE', 'Counter', 'Cleanse', 'Evasion Down',
         'Leader: +Potency', 'TM Gain', 'Speed Up', 'Stealth',
         'Thermal Detonator'],
-    'BADBATCHWRECKER':['AoE', 'Bonus Attack', 'Defense Up', 'Mass Dispel',
-        'TM Gain', 'Speed Down', 'Stun', 'Taunt', 'Tenacity Up'],
-	'BADBATCHECHO':['AoE', 'Assist', 'Buff Immunity', 'Daze', 'Cleanse',
-		'Evasion Up', 'Expose', 'TM Gain', 'Heal Immunity',
-		'CD Reduction', 'Defense Up', 'CD Increase', 'Mass Dispel'],
-	'COMMANDERAHSOKA':['Advantage', 'Assist', 'Counter', 'Dispel',
-		'Evasion Up', 'TM Gain', 'TM Swap', 'CD Reduction', 'Insta Kill',
-		'Critical Damage Up', 'Armor Shred', 'Stats Sharing'],
 }
 
 BUFFS = ['Accuracy Up', 'Advantage', 'Critical Chance Up',
 	'Critical Damage Up', 'Critical Hit Immunity', 'Damage Immunity',
 	'Defense Up', 'Evasion Up', 'Foresight', 'Frenzy', 'Health Up',
 	'Offense Up', 'Potency Up', 'Protection Up', 'Speed Up', 'Stealth',
-	'Taunt', 'Tenacity Up', 'Translation']
+	'Taunt', 'Tenacity Up', 'Translation', 'Retribution', 'Protection Over Time']
 DEBUFFS = ['Ability Block', 'Accuracy Down', 'Armor Shred', 'Blind', 'Breach',
 	'Buff Immunity', 'Burning', 'Confuse', 'Critical Chance Down',
 	'Critical Damage Down', 'Daze', 'Deathmark', 'Defense Down', 'DoT',
@@ -559,9 +573,9 @@ if __name__ == '__main__':
 	client = swgohgg.Swgohgg()
 	charList = client.get_from_api('characters')
 	tags = []
-	for character in charList:
-		if character['base_id'] == 'COMMANDERAHSOKA':
-			with open(CWD + os.sep + 'trash', 'w+') as f:
-				f.write('\'{}\':{}\n'.format(character['base_id'],
-					character['ability_classes']))
-				f.write('\'{}\''.format(character['name']))
+	with open(CWD + os.sep + 'trash', 'w+') as f:
+		for character in charList:
+			if (character['name'] == 'Tech'
+				or character['name'] == 'Hunter'):
+					f.write('\'{}\':{}\n'.format(character['base_id'],
+						character['ability_classes']))
