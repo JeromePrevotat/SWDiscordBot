@@ -277,10 +277,7 @@ LOCALIZATIONS = [
             'Obi-Wan Kenobi (Old Ben)':'Obi-Wan Kenobi (Old Ben)',
             'Omega':'Omega',
             'Old Daka':'Old Daka',
-<<<<<<< HEAD
             'Omega':'Omega',
-=======
->>>>>>> 0323d0b7616847cb4a7c824272373fb1eb4a459a
             'Padmé Amidala':'Padmé Amidala',
             'Pao':'Pao',
             'Paploo':'Paploo',
@@ -445,11 +442,7 @@ LOCALIZATIONS = [
             'Potency Down':'',
             'Potency Up':'',
             'Pre Taunt':'',
-<<<<<<< HEAD
             'Protection Over Time':'Protection sur la Durée',
-=======
-            'Protection Over Time':'Protection Over Time',
->>>>>>> 0323d0b7616847cb4a7c824272373fb1eb4a459a
             'Protection Up':'',
             'Retribution':'Retribution',
             'Revive':'',
@@ -590,11 +583,7 @@ LOCALIZATIONS = [
             'Jedi Knight Guardian':'Chevalier Jedi Gardien',
             'Jedi Knight Luke Skywalker':'Chevalier Jedi Luke Skywalker',
             'Jedi Knight Revan':'Chevalier Jedi Revan',
-<<<<<<< HEAD
-            'Jedi Master Kenobi':'Jedi Master Kenobi',
-=======
             'Jedi Master Kenobi':'Maitre Jedi Kenobi',
->>>>>>> 0323d0b7616847cb4a7c824272373fb1eb4a459a
             'Jedi Master Luke Skywalker':'Maitre Jedi Luke Skywalker',
             'Jolee Bindo':'Jolee Bindo',
             'Juhani':'Juhani',
