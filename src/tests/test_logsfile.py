@@ -19,16 +19,14 @@ class TestLogsFile(unittest.TestCase):
     """Tests Logs file CRUD."""
 
     def setUp(self):
-        # Var SetUp
-        self.parentDir = os.path.abspath(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))))
+        # var SetUp
+        self.testDir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
         self.logsDirName = 'logs'
-        self.logsDir = os.path.join(os.path.abspath(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__)))), self.logsDirName)
+        self.logsDir = os.path.join(self.testDir, self.logsDirName)
         self.prefix = khabot.bot.PREFIX
-        self.testBot = khabot.bot.KhaBot()
+        #self.testBot = khabot.bot.KhaBot()
         self.cmdList = [
-            'effects', 'have', 'local', 'help',
+        'effects', 'have', 'local', 'help',
         ]
         # Setup a new empty clean Logs Directory
         if not os.path.exists(self.logsDir):
@@ -54,7 +52,6 @@ class TestLogsFile(unittest.TestCase):
                 try:
                     if not os.path.isdir(os.path.join(path, f)):
                         os.remove(os.path.join(path, f))
-                        #print('RM FILE: {}\n'.format(os.path.join(path, f)))
                 except OSError as e:
                     print('{}\n -> {}'.format(os.path.join(path, f), e))
 
@@ -83,41 +80,52 @@ class TestLogsFile(unittest.TestCase):
                 os.rmdir(self.logsDir)
             except OSError as e:
                 print(e)
-        khabot.logs.mkdir_log_dir()
-        self.assertTrue(self.logsDirName in os.listdir(self.parentDir))
+        khabot.logs.mkdir_log_dir(self.logsDir)
+        self.assertTrue(self.logsDirName in os.listdir(self.testDir))
 
     def test_file_naming(self):
         """Tests the correct naming of logs files."""
         self.cleanDir(self.logsDir)
         fileName = dt.date.today().isoformat()
         # Create File Here
-        khabot.logs.new_log_file(fileName)
+        khabot.logs.new_log_file(fileName, self.logsDir)
         fileList = os.listdir(self.logsDir)
         self.assertTrue(fileList[0], fileName)
 
     def test_file_content(self):
         """Tests the correct formatting of the log file content."""
-        mine = ''
+        fileOutput = ''
         ref = ''
+        filename = dt.datet.today().isoformat()
         # Fill Log File Here
         for cmd in self.cmdList:
             header = dt.datetime.now().time()
             header = header.isoformat(timespec='seconds') + ': ' + self.prefix
             if cmd == 'effects':
-                ref += ' '.join([header, cmd, '\n'])
-                khabot.logs.add_to_log(' '.join([self.prefix, cmd]))
+                ref += ' '.join([header, cmd]) + '\n'
+                khabot.logs.add_to_log(
+                    ' '.join([self.prefix, cmd]), self.logsDir)
             if cmd == 'have':
-                ref += ' '.join([header, cmd, 'arg1', 'arg2', '\n'])
-                khabot.logs.add_to_log(' '.join([self.prefix, cmd, 'arg1', 'arg2']))
+                ref += ' '.join([header, cmd, 'arg1', 'arg2']) + '\n'
+                khabot.logs.add_to_log(
+                    ' '.join([self.prefix, cmd, 'arg1', 'arg2']), self.logsDir)
             if cmd == 'local':
-                ref += ' '.join([header, cmd, 'arg1', '\n'])
-                khabot.logs.add_to_log(' '.join([self.prefix, cmd, 'arg1']))
+                ref += ' '.join([header, cmd, 'arg1']) + '\n'
+                khabot.logs.add_to_log(
+                    ' '.join([self.prefix, cmd, 'arg1']), self.logsDir)
             if cmd not in ['effects', 'have', 'local']:
-                ref += ' '.join([header, cmd, '\n'])
-                khabot.logs.add_to_log(' '.join([self.prefix, cmd]))
-        self.assertEqual(mine, ref)
+                ref += ' '.join([header, cmd]) + '\n'
+                khabot.logs.add_to_log(
+                    ' '.join([self.prefix, cmd]), self.logsDir)
+        with open(os.path.join(self.logsDir, filename)) as f:
+            line = f.readline()
+            while line:
+                fileOutput += line
+                line = f.readline()
+        self.assertEqual(fileOutput, ref)
 
     def test_delete_old_files(self):
+        """Tests the correct Deletion of File older than 7 days."""
         today = dt.date.today()
         aWeekOld = today - dt.timedelta(days = 7)
         # Populate with Dummies Files
@@ -125,16 +133,30 @@ class TestLogsFile(unittest.TestCase):
         # Ref
         filesToKeep = []
         for f in os.listdir(self.logsDir):
-            if dt.date.fromisoformat(f) < aWeekOld:
+            if dt.date.fromisoformat(f) > aWeekOld:
                 filesToKeep.append(f)
         # Delete Files Here
-        khabot.logs.purge_old_logs()
+        khabot.logs.purge_old_logs(self.logsDir)
         self.assertEqual(os.listdir(self.logsDir), filesToKeep)
+
+    def test_get_last_log(self):
+        """Tests the correct retrieval of the most recent line in logs."""
+        filename = dt.date.today().isoformat()
+        correctLine = ''
+        lastLine = khabot.bot.get_last_log(filename)
+        self.assertEqual(lastLine, correctLine)
+
+    def test_get_most_recent_logfile(self):
+        self.populate_dummies_files()
+        today = dt.date.today()
+        correctFile = (today + dt.timedelta(days = 366)).isoformat()
+        # Test non empty Directory
+        mostRecentLogFile = khabot.logs.get_most_recent_logfile(self.logsDir)
+        self.assertEqual(mostRecentLogFile, correctFile)
+        # Test with an empty Directory
+        self.cleanDir(self.logsDir)
+        mostRecentLogFile = khabot.logs.get_most_recent_logfile(self.logsDir)
+        self.assertEqual(mostRecentLogFile, None)
 
 if __name__ == '__main__':
     unittest.main()
-    # today = dt.date.today()
-    # tomorrow = today + dt.timedelta(days = 1)
-    # aWeekAgo = today - dt.timedelta(days = 7)
-    # aMonthAgo = today - dt.timedelta(days = 32)
-    # print(aMonthAgo < aWeekAgo)
