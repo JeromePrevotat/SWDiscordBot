@@ -18,6 +18,10 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Characters with ',
         'have_fail':'No Character seems to interact with ',
+        # Feat
+        'feat_success':'Feats list in ',
+        'feat_general':'General feats :\n',
+        'feat_fail':'No Feat found.',
         # Effects
         'effects_success':'Here are all ',
         # Status Effects
@@ -358,6 +362,10 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Personnages avec ',
         'have_fail':'Aucun personnage ne semble interagir avec ',
+        # Feat
+        'feat_success':'Feats du ',
+        'feat_general':'Feats généraux :\n',
+        'feat_fail':'Aucun Feat trouvé.',
         # Effects
         'effects_success':'Voici tous les Effets de Statut ',
         # Status Effects
@@ -704,6 +712,9 @@ HELP_LOCAL = {
     # Have
     'have_brief':'Who interacts with a specified Status Effect.',
     'have_help':'Returns a List of Characters that have an interaction with the specified Status Effect.',
+    # Feat
+    'feat_brief':'Get some tips to achieve the Conquest Feats.',
+    'feat_help':'Get some tips to achieve the Conquest Feats.',
     # Effects
     'effects_brief':'Lists all Status Effects.',
     'effects_help':'Lists all Status Effects.',

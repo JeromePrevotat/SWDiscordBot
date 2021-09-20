@@ -16,6 +16,7 @@ import locals
 import servers_locals
 import interactions
 import embed
+import feats
 
 ###############################################################################
 #                         CONSTANTS                                           #
@@ -102,6 +103,47 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e, cmd)
+
+@commands.command(
+    brief=locals.HELP_LOCAL['feat_brief'],
+    help=locals.HELP_LOCAL['feat_help'])
+async def feat(self, ctx):
+    cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
+    filter = ''
+    if argList is not None:
+        filter = ctx.bot.get_main_arg(argList, optList)
+    fieldTitle = ''
+    fieldContent = ''
+    embedContent = {
+        'Header':None,
+        'Description': cmd + ' ' + filter,
+        'Fields':[],
+        'Footer':None,
+        'Img':None,
+        'Thumbnail':None,
+    }
+    if (filter != ''):
+        # Sets FieldTitle & Content
+        if (filter in ['1', '2', '3', '4', '5']):
+            fieldTitle = ctx.bot.get_localized_str(ctx, 'feat_success')\
+                + 'Sector ' + filter + ':\n'
+        else if filter == 'g':
+            fieldTitle = ctx.bot.get_localized_str(ctx, 'feat_general')
+        fieldContent = feats.FEATS[filter]
+        embedContent = embed.add_embed_content(
+            embedContent, 'Fields', embed.create_field(
+            fieldTitle, fieldContent))
+    # Invalid/Missing Args
+    else:
+        if (argList is None or filter == ''):
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        else if (filter not in ['1', '2', '3', '4', '5', 'g']):
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'feat_fail'))
+    # Send the Embed
+    e = embed.create_embed(ctx, embedContent)
+    await ctx.bot.send_embed(ctx, e, cmd)
 
     @commands.command(
         brief=locals.HELP_LOCAL['effects_brief'],

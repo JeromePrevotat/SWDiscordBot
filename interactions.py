@@ -319,7 +319,7 @@ ABLT_CLASSES = {
         'Tenacity Down', 'Tenacity Up', 'Mass Cleanse', 'Critical Chance Up',
         'Critical Damage Up', 'CD Increase', 'Breach', 'Critical Hit Immunity',
         'Leader: +Max Protection', 'Leader: +Offense', 'Cleanse',
-        'Defense Up', 'True Damage'],
+		'True Damage'],
 	'JOLEEBINDO':['Assist', 'Dispel', 'TM Gain', 'Revive', 'CD Reduction',
         'Heal', 'Cleanse', 'Critical Hit Immunity', 'Protection Up'],
 	'JUHANI':['AoE', 'Counter', 'Mass Cleanse', 'Offense Up', 'Stealth',
