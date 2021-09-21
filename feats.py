@@ -93,7 +93,7 @@ FEATS = {
         'Boss':
         '**Boss : Maul Mandalorian:**\n\
         **Crack in the Armor :** Gain Defense Penetration Up 20 times\n\t- JML GMY JKR Gas Hoda\n\n\
-        **Beskar Breaker :** inflict Armor Shred 3 times\n\n\
+        **Beskar Breaker :** inflict Armor Shred 3 times\n\t- JML GMY JKR Gas Hoda\n\n\
         **Crush Them :** Defeat at least 3 enemies in the same turn\n\t- JML JKL Gas JKR Hoda\n\n\
         **Unsupportive :** Win without using any Support in your Squad\n\t- CLS\n\n',
         },
