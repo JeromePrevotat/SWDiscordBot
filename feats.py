@@ -12,7 +12,7 @@ FEATS = {
         Critical Success : Gain Advantage 40 times\n\t- First Order/GMY steal & spread\n\n\
         Kalikori : Defeat 30 units with Phoenix Squadron units\n\t- JML Wat Ezra Hoda Jolee\n\n\
         Bounties to Collect : Win at least 14 battles with a full Squad of Bounty Hunter units\n\t- Bossk Mando Greef Jango vs Nightsisters\n\n\
-        Incapacitating Strike : Attempt to inflict Potency Down 40 times\n\t- GMY Basic\n\n',
+        Unsupportive : Win 10 battles with no Supports in your Squad\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n\
         # Mini Boss Feats
         'Miniboss':
         'Mini Boss Padme:\n\
@@ -30,12 +30,12 @@ FEATS = {
     '2':{
         # Sector Feats
         'Sector':
-        'Unsupportive : Win 10 battles with no Supports in your Squad\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando\n\n\
-        Best Defense : Win a battle with 5 Attackers in your Squad 10 times\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando\n\n\
+        'The Best Defense : Win a battle with 5 Attackers in your Squad 10 times\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n\
         Super Support : Grant at least 100 buffs to allies\n\t- GMY\n\n\
         All Nightsisters : Win at least 14 battles with a full Squad of Nightsister units\n\t- NS vs Geos\n\n\
         Striking Back : Defeat 40 units with Rebel Fighter units\n\t- MM Wedge Biggs Lando Cara Dune vs Boss : Zombie farm\n\n\
-        Blinding Assault : Attempt to inflict Blind 40 times\n\t- Threepio\n\n',
+        Blinding Assault : Attempt to inflict Blind 40 times\n\t- Threepio\n\n\
+        Incapacitating Strike : Attempt to inflict Potency Down 40 times\n\t- GMY Basic\n\n',
         # Mini Boss Feats
         'Miniboss':
         'Mini Boss GG:\n\
@@ -128,7 +128,7 @@ FEATS = {
         That\'ll leave a Mark : Gain 500 Offense Up times\n\t- GMY\n\n\
         Grand Victory : Defeat at least 500 enemies\n\t- Whatever\n\n\
         Unguarded : Win 20 battles with no Tanks in your squad\n\t- Half done in Sector 2 via Rebels\n\n\
-        Nightbrother : Win 20 battles with Darth Maul & Savage Opress\n\t- JML Wat Savage DMaul JKL/Gas\n\n\
+        Nightbrothers : Win 20 battles with Darth Maul & Savage Opress\n\t- JML Wat Savage DMaul JKL/Gas\n\n\
         One\'s own path : Defeat 100 enemy units in Conquest with Unaligned Force Users\n\t- CLS/CAT\n\n'
         },
 }
