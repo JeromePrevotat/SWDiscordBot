@@ -77,8 +77,8 @@ FEATS = {
     '4':{
         # Sector Feats
         'Sector':
-        '**? :** Evades 100 attacks in battles you won\n\t- Jedi + Hoda & GMY\n\n\
-        **? :** Win 10 battles with no Attackers in your Squad\n\t\- JML Zariss GMY Jolee Hoda\n\n\
+        '**Fleet-Footed :** Evades 100 attacks in battles you won\n\t- Jedi + Hoda & GMY\n\n\
+        **Disarmed :** Win 10 battles with no Attackers in your Squad\n\t\- JML Zariss GMY Jolee Hoda\n\n\
         **Reeling Blow :** Attempt to inflict Stagger 60 times\n\t- JML Hoda Wat Jango BSF\n\n\
         **Tradition of War :** Defeat 50 units with Mandalorian units\n\t- JML Hoda Wat Jango BSF\n\n\
         **All Smugglers :** Win at least 14 battles with a full Squad of Smugglers\n\t- Skipped\n\n\
