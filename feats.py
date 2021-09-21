@@ -12,7 +12,7 @@ FEATS = {
         **Critical Success :** Gain Advantage 40 times\n\t- First Order/GMY steal & spread\n\n\
         **Kalikori :** Defeat 30 units with Phoenix Squadron units\n\t- JML Wat Ezra Hoda Jolee\n\n\
         **Bounties to Collect :** Win at least 14 battles with a full Squad of Bounty Hunter units\n\t- Bossk Mando Greef Jango vs Nightsisters\n\n\
-        **Unsupportive :** Win 10 battles with no Supports in your Squad\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n\
+        **Unsupportive :** Win 10 battles with no Supports in your Squad\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n\',
         # Mini Boss Feats
         'Miniboss':
         '**Mini Boss Padme:**\n\
