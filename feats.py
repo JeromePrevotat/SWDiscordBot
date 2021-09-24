@@ -101,8 +101,8 @@ FEATS = {
     '5':{
         # Sector Feats
         'Sector':
-        '**Blow :** Inflict Daze 40 times\n\t- JML Gas\n\n\
-        **Victory :** Defeat at least 100 enemies\n\t- Whatever\n\n\
+        '**Reeling Blow :** Inflict Daze 40 times\n\t- JML Gas\n\n\
+        **Grand Victory :** Defeat at least 100 enemies\n\t- Whatever\n\n\
         **Marked for Death :** inflict Deathmark 10 times\n\t- DR Lead/Troopers/JML Wat Deathtrooper\n\n\
         **Flawless Victory :** Win at least 20 battles without loosing any units\n\t- JML\n\n\
         **Let\'s Blow Something Up :** Defeat 40 units with Bad Batch\n\t- Skipped\n\n\
