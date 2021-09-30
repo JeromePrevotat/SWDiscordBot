@@ -35,7 +35,7 @@ FEATS = {
         **All Nightsisters :** Win at least 14 battles with a full Squad of Nightsister units\n\t- NS vs Geos\n\n\
         **Striking Back :** Defeat 40 units with Rebel Fighter units\n\t- MM Wedge Biggs Lando Cara Dune vs Boss : Zombie farm\n\n\
         **Blinding Assault :** Attempt to inflict Blind 40 times\n\t- Threepio\n\n\
-        **Incapacitating Strike :** Attempt to inflict Potency Down 40 times\n\t- GMY Basic\n\n',
+        **Incapacitating Strike :** Attempt to inflict Potency Down 40 times\n\t- GMY Basic // JML Wat GMY Maul Savage\n\n',
         # Mini Boss Feats
         'Miniboss':
         '**Mini Boss GG:**\n\
@@ -80,9 +80,9 @@ FEATS = {
         '**Fleet-Footed :** Evades 100 attacks in battles you won\n\t- Jedi + Hoda & GMY\n\n\
         **Disarmed :** Win 10 battles with no Attackers in your Squad\n\t\- JML Zariss GMY Jolee Hoda\n\n\
         **Reeling Blow :** Attempt to inflict Stagger 60 times\n\t- JML Hoda Wat Jango BSF\n\n\
-        **Tradition of War :** Defeat 50 units with Mandalorian units\n\t- JML Hoda Wat Jango BSF\n\n\
+        **Tradition of War :** Defeat 50 units with Mandalorian units\n\t- JML Hoda Wat Jango BSF // JML Wat Jango Maul Savage\n\n\
         **All Smugglers :** Win at least 14 battles with a full Squad of Smugglers\n\t- Skipped\n\n\
-        **Evasive Movement :** Gain evasion Up 20 times\n\t- Threepio\n\n',
+        **Evasive Movement :** Gain Evasion Up 20 times\n\t- CLS Han Chewie Biggs CAT\n\n',
         # Mini Boss Feats
         'Miniboss':
         '**Mini Boss Ahsoka :**\n\
@@ -93,7 +93,7 @@ FEATS = {
         'Boss':
         '**Boss : Maul Mandalorian:**\n\
         **Crack in the Armor :** Gain Defense Penetration Up 20 times\n\t- JML GMY JKR Gas Hoda\n\n\
-        **Beskar Breaker :** inflict Armor Shred 3 times\n\t- JML GMY JKR Gas Hoda\n\n\
+        **Beskar Breaker :** Inflict Armor Shred 3 times\n\t- JML GMY JKR Gas Hoda // CLS Han Chewie Biggs CAT\n\n\
         **Crush Them :** Defeat at least 3 enemies in the same turn\n\t- JML JKL Gas JKR Hoda\n\n\
         **Unsupportive :** Win without using any Support in your Squad\n\t- CLS\n\n',
         },
