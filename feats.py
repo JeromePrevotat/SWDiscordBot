@@ -24,7 +24,7 @@ FEATS = {
         '**Boss QGJ:**\n\
         **All Separatists :** Win with a full Squad of Separatists units\n\t- GG\n\n\
         **Unguarded :** Win the battle with no Tanks in your Squad\n\t- JKR JKL GMY Jolee Hoda\n\n\
-        **Stunning Tactics :** Complete the battle after attempting to inflict Stun 20 times\n\t- JML JKL Aayla GMY Jolee\n\n',
+        **Stunning Tactics :** Complete the battle after attempting to inflict Stun 20 times\n\t- JML JKL GMY Hoda JKR/Aayla\n\n',
         },
     # Sector 2
     '2':{
@@ -92,7 +92,7 @@ FEATS = {
         # Boss Feats
         'Boss':
         '**Boss : Maul Mandalorian:**\n\
-        **Crack in the Armor :** Gain Defense Penetration Up 20 times\n\t- JML GMY JKR Gas Hoda\n\n\
+        **Crack in the Armor :** Gain Defense Penetration Up 20 times\n\t- JML GMY JKR Hoda JKL/Gas\n\n\
         **Beskar Breaker :** Inflict Armor Shred 3 times\n\t- JML GMY JKR Gas Hoda // CLS Han Chewie Biggs CAT\n\n\
         **Crush Them :** Defeat at least 3 enemies in the same turn\n\t- JML JKL Gas JKR Hoda\n\n\
         **Unsupportive :** Win without using any Support in your Squad\n\t- CLS\n\n',
@@ -116,7 +116,7 @@ FEATS = {
         # Boss Feats
         'Boss':
         '**Boss : JMK:**\n\
-        **Armor Up :** Gain Defense Up 20 times\n\t- JML\n\n\
+        **Armor Up :** Gain Defense Up 20 times\n\t- JML Jolee GMY Hoda Zariss\n\n\
         **Guarded Assault :** Complete the battle without losing a unit while at least one Attacker is in the Squad\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n\
         **Devastating Strike :** Deal at least 200.000 damage to an enemy in a single hit\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n\
         **Opportunistic Advance :** Attack out of Turn at least 30 times\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n',
