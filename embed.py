@@ -46,6 +46,17 @@ def create_embed(ctx, dictContent):
             embed.set_thumbnail(url=v)
     return embed
 
+def init_embed():
+    embedContent = {
+        'Header':None,
+        'Description':None,
+        'Fields':[],
+        'Footer':None,
+        'Img':None,
+        'Thumbnail':None,
+    }
+    return embedContent
+
 def add_embed_content(currentContent, key, value):
     content = currentContent
     if key == 'Fields':

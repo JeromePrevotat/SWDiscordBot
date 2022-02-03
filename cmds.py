@@ -47,6 +47,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
     async def basic(self, ctx):
         cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
         charName = ''
+        embedContent = embed.init_embed()
         if argList is not None:
             charName = ctx.bot.get_main_arg(argList, optList)
             # Find all Characters matching Arg
@@ -54,35 +55,33 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             abltList = ctx.bot.client.get_from_api('abilities')
             basic = ''
             charBaseId = ''
-            embedContent = {
-                'Header':None,
-                'Description': cmd + ' ' + charName,
-                'Fields':[],
-                'Footer':None,
-                'Img':None,
-                'Thumbnail':None,
-            }
+            # Retrieve Charater Base ID
             for character in charList:
                 if character['name'].lower() == charName.lower():
                     charBaseId = character['base_id']
                     charName = character['name']
+            # Retrieve Character Ability
             if charBaseId != '':
                 for ablt in abltList:
                     if ablt['character_base_id'] == charBaseId\
                         and ablt['type'] != 5\
                         and ablt['type'] == 1:
                         basic = ablt
+                # Retrieve Ability Description from Swgoh.gg website
                 abltHtmlDoc = webscrapper.get_html_doc('', 'ability',
                 basic['url'])
                 abltDesc = webscrapper.get_ablt_desc(abltHtmlDoc, basic['url'])
+                # Create Embed
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Thumbnail', basic['image'])
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Description', cmd + ' ' + charName)
                 fieldContent = abltDesc
                 embedContent = embed.add_embed_content(
                     embedContent, 'Fields', embed.create_field(
                         ctx.bot.get_localized_str(ctx, 'basic_success')\
                         + ctx.bot.get_localized_character(ctx, charName) +\
                         ':\n', fieldContent))
-                embedContent = embed.add_embed_content(
-                    embedContent, 'Thumbnail', basic['image'])
             # No match found
             if charBaseId == '' and len(argList[0]) < ARG_CHAR_LIMIT:
                     embedContent = embed.add_embed_content(embedContent,
@@ -112,14 +111,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         if argList is not None:
             effect = ctx.bot.get_main_arg(argList, optList)
         fieldContent = ''
-        embedContent = {
-            'Header':None,
-            'Description': cmd + ' ' + effect,
-            'Fields':[],
-            'Footer':None,
-            'Img':None,
-            'Thumbnail':webscrapper.get_ablt_img(effect),
-        }
+        embedContent = embed.init_embed()
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
         # Find all Characters matching Arg
@@ -135,6 +127,10 @@ class Game_cmds(commands.Cog, name='Game Commands'):
                         ctx, character['name']) + '\n'
             # Add all matches to a new Embed Field
             if len(matches) > 0:
+                embedContent = embed.add_embed_content(embedContent,
+                    'Description', cmd + ' ' + effect)
+                embedContent = embed.add_embed_content(embedContent,
+                    'Thumbnail', webscrapper.get_ablt_img(effect))
                 embedContent = embed.add_embed_content(
                     embedContent, 'Fields', embed.create_field(
                         ctx.bot.get_localized_str(ctx, 'have_success')\
@@ -162,28 +158,18 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             filter = ctx.bot.get_main_arg(argList, optList)
         fieldTitle = ''
         fieldContent = ''
-        embedContent = {
-            'Header':None,
-            'Description': cmd + ' ' + filter,
-            'Fields':[],
-            'Footer':None,
-            'Img':None,
-            'Thumbnail':None,
-        }
+        embedContent = embed.init_embed()
+        embedContent = embed.add_embed_content(embedContent, 'Description',
+            cmd + ' ' + filter)
         if (filter in ['1', '2', '3', '4', '5', 'g']):
             # Sets FieldTitle & Content
             if (filter in ['1', '2', '3', '4', '5']):
                 for key,value in feats.FEATS[filter].items():
                     fieldTitle = ''
                     fieldContent = ''
-                    embedContent = {
-                        'Header':None,
-                        'Description': cmd + ' ' + filter,
-                        'Fields':[],
-                        'Footer':None,
-                        'Img':None,
-                        'Thumbnail':None,
-                    }
+                    embedContent = embed.init_embed()
+                    embedContent = embed.add_embed_content(embedContent,
+                    'Description', cmd + ' ' + filter)
                     if key == 'Sector':
                         fieldTitle = ctx.bot.get_localized_str(
                         ctx, 'feat_success') + 'Sector ' + filter + ':\n'
@@ -209,14 +195,14 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         # Invalid/Missing Args
         else:
             if (argList is None or filter == ''):
-                embedContent = embed.add_embed_content(embedContent, 'Description',
-                    ctx.bot.get_localized_str(ctx, 'missing_arg'))
+                embedContent = embed.add_embed_content(embedContent,
+                'Description', ctx.bot.get_localized_str(ctx, 'missing_arg'))
                 # Send the Embed
                 e = embed.create_embed(ctx, embedContent)
                 await ctx.bot.send_embed(ctx, e, cmd)
             elif (filter not in ['1', '2', '3', '4', '5', 'g']):
-                embedContent = embed.add_embed_content(embedContent, 'Description',
-                    ctx.bot.get_localized_str(ctx, 'feat_fail'))
+                embedContent = embed.add_embed_content(embedContent,
+                'Description', ctx.bot.get_localized_str(ctx, 'feat_fail'))
                 # Send the Embed
                 e = embed.create_embed(ctx, embedContent)
                 await ctx.bot.send_embed(ctx, e, cmd)
@@ -227,14 +213,8 @@ class Game_cmds(commands.Cog, name='Game Commands'):
     async def effects(self, ctx):
         cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
         fieldContent = ''
-        embedContent = {
-            'Header':None,
-            'Description': cmd,
-            'Fields':[],
-            'Footer':None,
-            'Img':None,
-            'Thumbnail':None,
-        }
+        embedContent = embed.init_embed()
+        embedContent = embed.add_embed_content(embedContent, 'Description',cmd)
         matches = []
         # Find all Matches
         for k,v in interactions.ABLT_CLASSES_LIST.items():
