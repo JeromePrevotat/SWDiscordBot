@@ -18,6 +18,9 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Characters with ',
         'have_fail':'No Character seems to interact with ',
+        # Basic
+        'basic_success':'Basic Attack of ',
+        'basic_fail':'No Basic Attack found for the character ',
         # Feat
         'feat_success':'Feats list in ',
         'feat_general':'General feats :\n',
@@ -205,7 +208,7 @@ LOCALIZATIONS = [
             'Ewok Elder':'Ewok Elder',
             'Ewok Scout':'Ewok Scout',
             'Ezra Bridger':'Ezra Bridger',
-            'Fennec Shand','Fennec Shand',
+            'Fennec Shand':'Fennec Shand',
             'Finn':'Finn',
             'First Order Executioner':'First Order Executioner',
             'First Order Officer':'First Order Officer',
@@ -372,6 +375,9 @@ LOCALIZATIONS = [
         # Have
         'have_success':'Personnages avec ',
         'have_fail':'Aucun personnage ne semble interagir avec ',
+        # Basic
+        'basic_success':'Attaque de base de ',
+        'basic_fail':'Aucune attaque de base trouvée pour le personnage ',
         # Feat
         'feat_success':'Feats du ',
         'feat_general':'Feats généraux :\n',
@@ -623,7 +629,7 @@ LOCALIZATIONS = [
             'Lando Calrissian':'Lando Calrissian',
             'Lobot':'Lobot',
             'Logray':'Logray',
-            'Lord Vader':''
+            'Lord Vader':'',
             'Luke Skywalker (Farmboy)':'',
             'Luminara Unduli':'Luminara Unduli',
             'Mace Windu':'Mace Windu',
