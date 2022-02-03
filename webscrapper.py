@@ -18,8 +18,7 @@ def get_html_doc(search, category, baseUrl):
         if htmlDoc.status_code == 200:
             return htmlDoc.content
     if category == 'ability':
-        htmlDoc = requests.request('GET',
-            baseUrl + search)
+        htmlDoc = requests.request('GET', 'https:' + baseUrl)
         if htmlDoc.status_code == 200:
             return htmlDoc.content
 

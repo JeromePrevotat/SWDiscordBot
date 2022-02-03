@@ -1,2 +1,3 @@
 # SWDiscordBot
-Star Wars related Discord Bot
+Star Wars Galaxy of Heroes related Discord Bot
+Hosted on Heroku

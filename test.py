@@ -10,17 +10,13 @@ import swgohgg
 import servers_locals
 
 if __name__ == '__main__':
-    LEADS = ['Leader: +Counter', 'Leader: +Critical Avoid',
-	'Leader: +Critical Chance', 'Leader: +Critical Damage',
-	'Leader: +Defense', 'Leader: +Evasion',
-	'Leader: +Mastery', 'Leader: +Max Health', 'Leader: +Max Protection',
-	'Leader: +Offense', 'Leader: +Potency',
-	'Leader: +Speed', 'Leader: +Tenacity', 'Leader: -Defense',
-	'Leader: -Potency', 'Leader: -Speed', 'Leader: Assist',
-	'Leader: CD Reduction', 'Leader: Critical Avoid', 'Leader: Protection Up',
-	'Leader: TM Gain', 'Leader: TMR']
-    fieldContent = ''
-    for effect in LEADS:
-        fieldContent += '- ' + effect + '\n'
-    print(fieldContent)
-    print(len(fieldContent))
+    swgoh = swgohgg.Swgohgg()
+    abilities = swgoh.get_from_api('abilities')
+    matches = []
+    for charDict in abilities:
+        if charDict['character_base_id'] == 'EZRABRIDGERS3'\
+            and charDict['type'] != 5\
+            and charDict['type'] == 1:
+            matches.append(charDict)
+    for ab in matches:
+        print('{}\n'.format(ab))

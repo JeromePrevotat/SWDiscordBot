@@ -45,8 +45,56 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         brief=locals.HELP_LOCAL['basic_brief'],
         help=locals.HELP_LOCAL['basic_help'])
     async def basic(self, ctx):
-        msg = 'Working on it.'
-        await ctx.channel.send(msg)
+        cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
+        charName = ''
+        if argList is not None:
+            charName = ctx.bot.get_main_arg(argList, optList)
+            # Find all Characters matching Arg
+            charList = ctx.bot.client.get_from_api('characters')
+            abltList = ctx.bot.client.get_from_api('abilities')
+            basic = ''
+            charBaseId = ''
+            embedContent = {
+                'Header':None,
+                'Description': cmd + ' ' + charName,
+                'Fields':[],
+                'Footer':None,
+                'Img':None,
+                'Thumbnail':None,
+            }
+            for character in charList:
+                if character['name'].lower() == charName.lower():
+                    charBaseId = character['base_id']
+                    charName = character['name']
+            if charBaseId != '':
+                for ablt in abltList:
+                    if ablt['character_base_id'] == charBaseId\
+                        and ablt['type'] != 5\
+                        and ablt['type'] == 1:
+                        basic = ablt
+                abltHtmlDoc = webscrapper.get_html_doc('', 'ability',
+                basic['url'])
+                abltDesc = webscrapper.get_ablt_desc(abltHtmlDoc, basic['url'])
+                fieldContent = abltDesc
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Fields', embed.create_field(
+                        ctx.bot.get_localized_str(ctx, 'basic_success')\
+                        + ctx.bot.get_localized_character(ctx, charName) +\
+                        ':\n', fieldContent))
+                embedContent = embed.add_embed_content(
+                    embedContent, 'Thumbnail', basic['image'])
+            # No match found
+            if charBaseId == '' and len(argList[0]) < ARG_CHAR_LIMIT:
+                    embedContent = embed.add_embed_content(embedContent,
+                        'Description', ctx.bot.get_localized_str(ctx,
+                        'basic_fail') + charName.capitalize() + '\n')
+        # Invalid/Missing Args
+        else:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+        # Send the Embed
+        e = embed.create_embed(ctx, embedContent)
+        await ctx.bot.send_embed(ctx, e, cmd)
 
     @commands.command(
         brief=locals.HELP_LOCAL['kit_brief'],
