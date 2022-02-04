@@ -55,6 +55,8 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             abltList = ctx.bot.client.get_from_api('abilities')
             basic = ''
             charBaseId = ''
+            # Retrieve Character name from Aliases
+            charName = ctx.bot.get_charname_from_aliases(ctx, charName)
             # Retrieve Charater Base ID
             for character in charList:
                 if character['name'].lower() == charName.lower():
