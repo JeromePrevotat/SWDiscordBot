@@ -128,9 +128,22 @@ class KhaBot(commands.Bot):
         """Returns the Localized Character Name.
         Default to EN-US if not yet translated."""
         name = ''
-        name = ctx.bot.get_guild_local(ctx.guild)['Characters'][charName]
+        name = ctx.bot.get_guild_local(ctx.guild)['Characters'][charName][0]
         if name == '':
-            name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName]
+            name = locals.LOCALS[DEFAULT_LOCAL]['Characters'][charName][0]
+        return name
+
+    def get_charname_from_aliases(self, ctx, charName):
+        """Look up for charName into Characters Aliases.
+        Returns the full name if it matches."""
+        name = ''
+        for c, a in ctx.bot.get_guild_local(ctx.guild)['Characters'].items():
+            if charName.lower() in [alias.lower() for alias in a]:
+                name = a[0]
+        if name == '':
+            for c, a in locals.LOCALS[DEFAULT_LOCAL]['Characters'].items():
+                    if charName.lower() in [alias.lower() for alias in a]:
+                        name = a[0]
         return name
 
     def get_localized_effect(self, ctx, effect):
