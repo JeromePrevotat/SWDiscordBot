@@ -7,129 +7,108 @@ FEATS = {
     '1':{
         # Sector Feats
         'Sector':
-        '**Opportunistic Advance :** Attack out of Turn 100 times\n\t- CLS/Jedi/Troopers/BH/GG\n\n\
-        **Lucky Shot :** Score 200 Critical Hits\n\t- Whatever\n\n\
-        **Critical Success :** Gain Advantage 40 times\n\t- First Order/GMY steal & spread\n\n\
-        **Kalikori :** Defeat 30 units with Phoenix Squadron units\n\t- JML Wat Ezra Hoda Jolee\n\n\
-        **Bounties to Collect :** Win at least 14 battles with a full Squad of Bounty Hunter units\n\t- Bossk Mando Greef Jango vs Nightsisters\n\n\
-        **Unsupportive :** Win 10 battles with no Supports in your Squad\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n',
+        '**The Guild :** Defeat 50 enemies with Bounty Hunter\n\t- BH + Bando + Boba\n\n\
+        **Unguarded :** Win 5 battles with no Tanks in your Squad\n\t- CLS + Chewpio\n\n\
+        **Anticipated Dodge :** Gain Foresight 60 Times\n\t- Jedi : QGJ Lead(optionnal) + GMY + Hoda\n\n\
+        **Blinding Assault :** Attempt to inflict Blind 40 times\n\t- CLS + Chewpio\n\n',
         # Mini Boss Feats
         'Miniboss':
-        '**Mini Boss Padme:**\n\
-        **For the Light :** Win with a full Squad of Light Side units\n\t- CLS/JKR GMY\n\n\
-        **A Touch of Darkness :** Win with a full Squad of Dark Side units\n\t- GG\n\n\
-        **Calculated Risk :** Complete the battle with an undersized Squad\n\t- JKR GMY Jolee Hoda\n\n',
+        '**Mini Boss Dash Rendar & Prepared Crew:**\n\
+        **Fortunate to be All in One Piece :** Win with URoRRuR\'R\'R surviving\n\t- JML + JKL\n\n\
+        **Utinni! :** Win with at least 3 Jawas in your Squad\n\t- JML + JKL\n\n',
         # Boss Feats
         'Boss':
-        '**Boss QGJ:**\n\
-        **All Separatists :** Win with a full Squad of Separatists units\n\t- GG\n\n\
-        **Unguarded :** Win the battle with no Tanks in your Squad\n\t- JKR JKL GMY Jolee Hoda\n\n\
-        **Stunning Tactics :** Complete the battle after attempting to inflict Stun 20 times\n\t- JML JKL GMY Hoda JKR/Aayla\n\n',
+        '**Boss JKR Jedi:**\n\
+        **I\'ll Take Those Odds :** Win witht he Mandalorian surviving\n\t- BH/Maul Mandos/JML\n\n\
+        **Amateur Hour :** Win without any Bounty Hunters in your Squad\n\t- Whatever\n\n',
         },
     # Sector 2
     '2':{
         # Sector Feats
         'Sector':
-        '**The Best Defense :** Win a battle with 5 Attackers in your Squad 10 times\n\t- CLS Han Chewie Threepio CAT/Fulcrum/Lando/Wedge\n\n\
-        **Super Support :** Grant at least 100 buffs to allies\n\t- GMY\n\n\
-        **All Nightsisters :** Win at least 14 battles with a full Squad of Nightsister units\n\t- NS vs Geos\n\n\
-        **Striking Back :** Defeat 40 units with Rebel Fighter units\n\t- MM Wedge Biggs Lando Cara Dune vs Boss : Zombie farm\n\n\
-        **Blinding Assault :** Attempt to inflict Blind 40 times\n\t- Threepio\n\n\
-        **Incapacitating Strike :** Attempt to inflict Potency Down 40 times\n\t- GMY Basic // JML Wat GMY Maul Savage\n\n',
+        '**Flawless Victory :** Win at least 20 battles without losing any units\n\t- Whatever\n\n\
+        **Armor Up :** Gain Defense Up 60 times\n\t- Jedi + Old Ben + Zariss + GMY\n\n\
+        **All Imperial Troopers :** Win at least 14 battles with a full Squad of Imperial Troopers units\n\t- IT\n\n\
+        **Siphoning Strike :** Gain Health Steal Up 20 times\n\t- EP Lead + Vader + Thrawn vs Mini Boss Traya\n\n',
         # Mini Boss Feats
         'Miniboss':
-        '**Mini Boss GG:**\n\
-        **For the Light :** Win with a full Squad of Light Side units\n\t- JKR/Padme\n\n\
-        **A Touch of Darkness :** Win with a full Squad of Dark Side units\n\t- GG\n\n\
-        **Calculated Risk :** Complete the battle with an undersized Squad\n\t- JKR GMY Jolee Hoda\n\n',
+        '**Mini Boss Traya:**\n\
+        **Retreat from Echo Base :** Win with Cpatain Han Solo Surviving\n\t- JML\n\n\
+        **End of the Rebellion :** Win without using any Rebels in your Squad\n\t- EP Lead + Vader + Thrawn\n\n',
         # Boss Feats
         'Boss':
-        '**Boss : Nightsister:**\n\
-        **Recovery Expert :** Recover at least 300.000 points of Health\n\t- JML Wat Zariss Hoda Jolee\n\n\
-        **Going Critical :** Score at least 20 Critical hits in a row during ally turns\n\t- JKL JKR GMY Bastilla Aayla\n\n\
-        **Flawless Victory :** Win without loosing any units\n\t- Whatever\n\n',
+        '**Boss : GG:**\n\
+        **Target. Maximum Fire Power :** win with general Veers and SnowTrooper surviving\n\t- IT + IT Tech\n\n\
+        **The Empire is Gone :** Win without using any Empire units in your Squad\n\t- Whatever\n\n',
         },
     # Sector 3
     '3':{
         # Sector Feats
         'Sector':
-        '**Stunning Tactics :** Inflict Stun 100 times\n\t- JKL/EP\n\n\
-        **Shadowy Dealings :** Gain Stealth 40 times\n\t- Jedi + Hoda & GMY or Rebels/GR + R2D2 & C3PO\n\n\
-        **Relentless Fury :** Gain Frenzy 20 times\n\t- Initial Frenzy Tech/JML JKR Hoda Wat Bossk\n\n\
-        **All Old Republic :** Defeat 40 units with Old Republic units\n\t- JML JKR Hoda Wat Bossk\n\n\
-        **Clumsy :** Attempt to inflict Evasion Down 40 times\n\t- Threepio\n\n\
-        **All Empire :** Win at least 14 battle with a full Squad of Empire units\n\t- Ep Vader Thrawn Tarkin TIE Pilot vs NS\n\n',
+        '**Lucky Shot :** Score at least 200 Critical Hits\n\t- Whatever\n\n\
+        **All Jedi :** Win at least 14 battles with a full Squad of Jedi units\n\t- Jedi : QGJ Lead(optionnal) + GMY + Hoda\n\n\
+        **Fleet-Footed :** Evade at least 100 attacks in battles you won\n\t- Jedi : QGJ Lead(optionnal) + GMY + Hoda\n\n\
+        **Beep Boop :** Defeat 50 enemies with Droid Units\n\t- GG\n\n',
         # Mini Boss Feats
         'Miniboss':
-        '**Mini Boss Bo Katan Mandalorians:**\n\
-        **For the Light :** Win with a full Squad of Light Side units\n\t- JML JKR Hoda JKL Gas\n\n\
-        **A Touch of Darkness :** Win with a full Squad of Dark Side units\n\t- GG\n\n\
-        **Calculated Risk :** Complete the battle with an undersized Squad\n\t- JML JKR Hoda Wat\n\n',
+        '**Mini Boss MM:**\n\
+        **Separatist Leader :** Win with Count dooku and Nute Gunray surviving\n\t- JML JKL Dooku Nute Wat\n\n\
+        **For the Republic :** Win without using any Separatists in your Squad\n\t- Whatever\n\n',
         # Boss Feats
         'Boss':
-        '**Boss : Sidious:**\n\
-        **Hindered Movement :** remove from enemies at least 700% Turn Meter (total)\n\t- JML Old Ben JTR C3PO Wat\n\n\
-        **Simple Tricks :** Win without using more than 6 Special Abilities\n\t- JKL JML Gas Hoda JKR\n\n\
-        **You are Under Arrest :** Win with mace Windu on your Squad\n\t- JML JKR JKL Mace Windu Hoda\n\n\
-        **End of the Jedi :** Win without using any Jedi characters in your Squad\n\t- GG\n\n',
+        '**Boss : DR:**\n\
+        **Hello There :** Win with Jedi Knight Anakain and General Kenobi surviving\n\t- JML/JMK/Padme CAT\n\n\
+        **All Clone Troopers :** Win with a full Squad of Clone Troopers units\n\t- F that\n\n',
         },
     # Sector 4
     '4':{
         # Sector Feats
         'Sector':
-        '**Fleet-Footed :** Evades 100 attacks in battles you won\n\t- Jedi + Hoda & GMY\n\n\
-        **Disarmed :** Win 10 battles with no Attackers in your Squad\n\t\- JML Zariss GMY Jolee Hoda\n\n\
-        **Reeling Blow :** Attempt to inflict Stagger 60 times\n\t- JML Hoda Wat Jango BSF\n\n\
-        **Tradition of War :** Defeat 50 units with Mandalorian units\n\t- JML Hoda Wat Jango BSF // JML Wat Jango Maul Savage\n\n\
-        **All Smugglers :** Win at least 14 battles with a full Squad of Smugglers\n\t- Skipped\n\n\
-        **Evasive Movement :** Gain Evasion Up 20 times\n\t- CLS Han Chewie Biggs CAT\n\n',
+        '**Forced Tranquility :** Attempt to inflict Ability Block 60 times\n\t- EP Lead Vader Thrawn\n\n\
+        **All Sith :** Win 14 battles with a full Squad of Sith units\n\t\- EP Lead Vader Thrawn\n\n\
+        **A Clone Army :** Defeat 50 enemies with Clone Tropper units\n\t- Shaak Clones + Zealous Ambition\n\n\
+        **Shadowy Dealings :** Gain Stealth 40 times\n\t- Rebels/Resistance + R2\n\n',
         # Mini Boss Feats
         'Miniboss':
-        '**Mini Boss Ahsoka :**\n\
-        **For the Light :** Win with a full Squad of Light Side units\n\t- Whatever\n\n\
-        **A Touch of Darkness :** Win with a full Squad of Dark Side units\n\t- GG\n\n\
-        **Calculated Risk :** Complete the battle with an undersized Squad\n\t- JML JKR Hoda Wat\n\n',
+        '**Mini Boss Starkiller :**\n\
+        **Battle for Kamino :** Win with clone Sergeant-Phase 1 surviving\n\t- F that\n\n\
+        **Crush Them :** Defeat at least 3 enemies in the same time\n\t- F that\n\n',
         # Boss Feats
         'Boss':
-        '**Boss : Maul Mandalorian:**\n\
-        **Crack in the Armor :** Gain Defense Penetration Up 20 times\n\t- JML GMY JKR Hoda JKL/Gas\n\n\
-        **Beskar Breaker :** Inflict Armor Shred 3 times\n\t- JML GMY JKR Gas Hoda // CLS Han Chewie Biggs CAT\n\n\
-        **Crush Them :** Defeat at least 3 enemies in the same turn\n\t- JML JKL Gas JKR Hoda\n\n\
-        **Unsupportive :** Win without using any Support in your Squad\n\t- CLS\n\n',
+        '**Boss : Lord Vader:**\n\
+        **One by One :** Inflict marked on at least 3 enemies\n\t- F that\n\n\
+        **Devastating Strike :** Deal at least 200.000 to an enemy in a single hit\n\t- F that\n\n',
         },
     # Sector 5
     '5':{
         # Sector Feats
         'Sector':
-        '**Reeling Blow :** Inflict Daze 40 times\n\t- JML Gas\n\n\
-        **Grand Victory :** Defeat at least 100 enemies\n\t- Whatever\n\n\
-        **Marked for Death :** inflict Deathmark 10 times\n\t- DR Lead/Troopers/JML Wat Deathtrooper\n\n\
-        **Flawless Victory :** Win at least 20 battles without loosing any units\n\t- JML\n\n\
-        **Let\'s Blow Something Up :** Defeat 40 units with Bad Batch\n\t- Skipped\n\n\
-        **Brood Warfare :** Win 14 battles with a full Squad of Geonosian units\n\t- Geo + Overcharged Medpack/Protection/Faction Tech vs Miniboss\n\n',
+        '**Beskar Breaker :** Inflict Armor Shred 20 times\n\t- JMK/Padme + CAT + GAS\n\n\
+        **All Galactic Republic :** Win at least 14 battles with a full Squad of Galactic Republic units\n\t- JMK/Padme + CAT + GAS\n\n\
+        **Such a Quiet Thing :** Defeat 50 enemies with Old Republic units\n\t- JML/JKR + Bastilla + Jolee\n\n\
+        **Clumsy :** Attempt to inflct Evasion Down 40 times\n\t- CLS + Chewpio\n\n',
         # Mini Boss Feats
         'Miniboss':
-        '**Mini Boss Phoenix :**\n\
-        **For the Light :** Win with a full Squad of Light Side units\n\t- Whatever\n\n\
-        **A Touch of Darkness :** Win with a full Squad of Dark Side units\n\t- GG\n\n\
-        **Calculated Risk :** Complete the battle with an undersized Squad\n\t- JML JKR Hoda Wat\n\n',
+        '**Mini Boss Fat Boba Scoundrels :**\n\
+        **This Party\'s Over :** Win with Mace Windu surviving\n\t- JML + JKL + Mace Windu\n\n\
+        **Long Live the Empire :** Win with grand Moff tarkin and Moff Gideon surviving\n\t- JML + JKL + Wat + Tarkin + Gideon\n\n',
         # Boss Feats
         'Boss':
         '**Boss : JMK:**\n\
-        **Armor Up :** Gain Defense Up 20 times\n\t- JML Jolee GMY Hoda Zariss\n\n\
-        **Guarded Assault :** Complete the battle without losing a unit while at least one Attacker is in the Squad\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n\
-        **Devastating Strike :** Deal at least 200.000 damage to an enemy in a single hit\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n\
-        **Opportunistic Advance :** Attack out of Turn at least 30 times\n\t- Gas 501rst/JML JKL JKR Hoda Jolee\n\n',
+        **Guarded Assault :** Complete the battle without losing a unit while at least one Attacker is in the Squad\n\t- JMK CAT\n\n\
+        **Unsupportive :** Win without using any Support unit in your Squad\n\t- JMK CAT\n\n',
         },
     # General Feats
     'g':{
         'General':
         '**Live in Light :** Win 50 battles with a full Squad of Light Side units\n\t- Whatever\n\n\
-        **Dabble in Darkness :** Win 50 battles with a full Squad of Dark Side units\n\t- GG/Dralak\n\n\
-        **That\'ll leave a Mark :** Gain 500 Offense Up times\n\t- GMY\n\n\
+        **Dabble in Darkness :** Win 50 battles with a full Squad of Dark Side units\n\t- GG Sector 3/Sith/IT Sector 2\n\n\
         **Grand Victory :** Defeat at least 500 enemies\n\t- Whatever\n\n\
-        **Unguarded :** Win 20 battles with no Tanks in your squad\n\t- Half done in Sector 2 via Rebels\n\n\
-        **Nightbrothers :** Win 20 battles with Darth Maul & Savage Opress\n\t- JML Wat Savage DMaul JKL/Gas\n\n\
-        **One\'s own path :** Defeat 100 enemy units in Conquest with Unaligned Force Users\n\t- CLS/CAT\n\n'
+        **I Want My Armor :** Win 20 battles with Beskar Mando & Boba Fett\n\t- In Sector 1 : BH + Bando + Boba\n\n\
+        **Great Shot Kid :** Gain Critical Over 20 Times\n\t- Requires completing A New Hope Feat\n\n\
+        **A New Hope :** Win 20 battles with Farmboy Luke and Old Ben\n\t- Rebels/JML + Old Ben + Zariss Sector 2\n\n\
+        **Unlimited Power :** Gain Massively Overpowered 20 Times\n\t- Requires completing I Know There is Good in You Feat\n\n\
+        **I Know There is Good in You :** Defeat 100 enemies with Darth vader or Jedi Knight Luke Skywalker\n\t- Sith/Empire/Jedi\n\n\
+        **Grand Conquest :** Win 250 Battles\n\t- Whatever\n\n',
         },
 }

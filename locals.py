@@ -9,7 +9,7 @@ LOCALIZATIONS = [
         'FR-FR':'Français',
         # COMMANDS
         # Missing arguments
-        'missing_arg':'Missing arguments. Check %help for more informations.',
+        'missing_wrong_arg':'Missing or Wrong arguments. Check %help for more informations.',
         'embed_too_long':'Too many results to display. Try to narrow down your search parameters.',
         'something_went_wrong':'Something went wrong. I have a bad feeling about this...',
         # Local
@@ -21,6 +21,11 @@ LOCALIZATIONS = [
         # Basic
         'basic_success':'Basic Attack of ',
         'basic_fail':'No Basic Attack found for the character ',
+        # Special
+        'special_success':'Special Attack of ',
+        'special_fail':'No Special Attack found for the character ',
+        'special_incorrect_arg':'Characters only have between 1 and 3 Special Attacks !',
+        'less_special_fail':'This character does not have that many Special Attack !',
         # Feat
         'feat_success':'Feats list in ',
         'feat_general':'General feats :\n',
@@ -385,7 +390,7 @@ LOCALIZATIONS = [
         'FR-FR':'Français',
         # COMMANDS
         # Miscellaneous
-        'missing_arg':'Argument introuvable. Tappez %help pour plus d\'informations.',
+        'missing_wrong_arg':'Argument incompatible ou introuvable. Tappez %help pour plus d\'informations.',
         'embed_too_long':'Trop de résultats à afficher. Essayer de réduire vos paramètres de recherche.',
         'something_went_wrong':'Quelque chose ne s\'est pas passé comme prévu.',
         # Local
@@ -397,6 +402,11 @@ LOCALIZATIONS = [
         # Basic
         'basic_success':'Attaque de base de ',
         'basic_fail':'Aucune attaque de base trouvée pour le personnage ',
+        # Special
+        'special_success':'Attaque Spéciale de ',
+        'special_fail':'Aucune Attaque Spéciale trouvée pour le personnage ',
+        'special_incorrect_arg':'Les personnages n\'ont qu\'entre 1 et 3 Attaques Spéciales !',
+        'less_special_fail':'Ce personnage n\'a pas autant d\'Attaques Spéciales !',
         # Feat
         'feat_success':'Feats du ',
         'feat_general':'Feats généraux :\n',
@@ -771,6 +781,9 @@ HELP_LOCAL = {
     # Basic
     'basic_brief':'Returns the Basic Ability of a specified Character.',
     'basic_help':'Returns the Basic Ability of a specified Character.',
+    # Special
+    'special_brief':'Returns the Special Ability of a specified Character.',
+    'special_help':'Returns the Special Ability of a specified Character.',
     # Kit
     'kit_brief':'Returns all the Abilities of a specified Character.',
     'kit_help':'Returns all the Abilities of a specified Character.',

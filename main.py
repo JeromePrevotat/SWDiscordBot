@@ -27,7 +27,8 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 ARG_CHAR_LIMIT = 50
 DEFAULT_LOCAL = 'EN-US'
 MAX_EMBED_LENGTH = 6000
-OPTIONS_LIST = ['-a','-t',]
+OPTIONS_NUMBERS = ['1', '2', '3']
+OPTIONS_LIST = ['-a','-t', OPTIONS_NUMBERS]
 PREFIX = '%k'
 
 ###############################################################################
@@ -46,6 +47,7 @@ class KhaBot(commands.Bot):
         #Swgoh.gg related stuff
         self.client = swgohgg.Swgohgg()
         #Activates Commands
+        self.optionsNumbers = OPTIONS_NUMBERS
         self.optionsList = OPTIONS_LIST
         self.add_cog(cmds.Bot_cmds(self))
         self.add_cog(cmds.Game_cmds(self))
@@ -170,16 +172,24 @@ class KhaBot(commands.Bot):
             optList = None
         else:
             argList = arg[2:]
-            optList = self.get_cmd_options(argList)
+            optList = self.get_cmd_options(argList, ctx)
         return cmd, argList, optList
 
-    def get_cmd_options(self, argList):
+    def get_cmd_options(self, argList, ctx):
         """Returns a list of all Options passed to the Command, if any.
         Return None if no Options are passed."""
         options = []
         for arg in argList:
             if arg.startswith('-'):
                 options.append(arg)
+            elif arg in ctx.bot.optionsNumbers:
+                options.append(arg)
+            else:
+                try:
+                    intArg = int(arg)
+                    options.append(arg)
+                except ValueError:
+                    pass
         if options != []:
             return options
         else:
@@ -188,14 +198,17 @@ class KhaBot(commands.Bot):
     def get_main_arg(self, argList, optList):
         """Returns the Main Argument passed to the Command."""
         mainArg = ''
-        print(argList)
         if optList is None:
             mainArg = ' '.join(a for a in argList)
         else:
             i = 0
-            while i < len(argList) and argList[i] not in optList:
-                mainArg += argList[i].lower() + ' '
+            while i < len(argList):
+                if argList[i] not in optList:
+                    mainArg += argList[i].lower() + ' '
                 i += 1
+        print('ARGLIST : ', argList)
+        print('OPTLIST : ', optList)
+        print('MAINARG : ', mainArg.strip())
         return mainArg.strip()
 
     async def send_embed(self, ctx, e, cmd):

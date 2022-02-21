@@ -49,7 +49,8 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         charName = ''
         embedContent = embed.init_embed()
         if argList is not None:
-            charName = ctx.bot.get_main_arg(argList, optList)
+            mainArg = ctx.bot.get_main_arg(argList, optList)
+            charName = mainArg
             # Find all Characters matching Arg
             charList = ctx.bot.client.get_from_api('characters')
             abltList = ctx.bot.client.get_from_api('abilities')
@@ -66,8 +67,8 @@ class Game_cmds(commands.Cog, name='Game Commands'):
             if charBaseId != '':
                 for ablt in abltList:
                     if ablt['character_base_id'] == charBaseId\
-                        and ablt['type'] != 5\
-                        and ablt['type'] == 1:
+                        and ablt['type'] != swgohgg.SHIP_ABLT\
+                        and ablt['type'] == swgohgg.BASIC_ABLT:
                         basic = ablt
                 # Retrieve Ability Description from Swgoh.gg website
                 abltHtmlDoc = webscrapper.get_html_doc('', 'ability',
@@ -77,25 +78,110 @@ class Game_cmds(commands.Cog, name='Game Commands'):
                 embedContent = embed.add_embed_content(
                     embedContent, 'Thumbnail', basic['image'])
                 embedContent = embed.add_embed_content(
-                    embedContent, 'Description', cmd + ' ' + charName)
+                    embedContent, 'Description', cmd + ' ' + mainArg)
                 fieldContent = abltDesc
                 embedContent = embed.add_embed_content(
                     embedContent, 'Fields', embed.create_field(
                         ctx.bot.get_localized_str(ctx, 'basic_success')\
                         + ctx.bot.get_localized_character(ctx, charName) +\
-                        ':\n', fieldContent))
+                        ': ' + basic['name'] + '\n', fieldContent))
             # No match found
             if charBaseId == '' and len(argList[0]) < ARG_CHAR_LIMIT:
                     embedContent = embed.add_embed_content(embedContent,
                         'Description', ctx.bot.get_localized_str(ctx,
-                        'basic_fail') + charName.capitalize() + '\n')
+                        'basic_fail') + mainArg + '\n')
         # Invalid/Missing Args
         else:
             embedContent = embed.add_embed_content(embedContent, 'Description',
-                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+                ctx.bot.get_localized_str(ctx, 'missing_wrong_arg'))
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e, cmd)
+
+    @commands.command(
+        brief=locals.HELP_LOCAL['special_brief'],
+        help=locals.HELP_LOCAL['special_help'])
+    async def special(self, ctx):
+        cmd, argList, optList = await ctx.bot.get_cmd_arg(ctx)
+        charName = ''
+        matches = []
+        special = ''
+        charBaseId = ''
+        embedContent = embed.init_embed()
+        if argList is not None:
+            mainArg = ctx.bot.get_main_arg(argList, optList)
+            charName = mainArg
+            # Find all Characters matching Arg
+            charList = ctx.bot.client.get_from_api('characters')
+            abltList = ctx.bot.client.get_from_api('abilities')
+            # Retrieve Character name from Aliases
+            charName = ctx.bot.get_charname_from_aliases(ctx, charName)
+            # Retrieve Charater Base ID
+            for character in charList:
+                if character['name'].lower() == charName.lower():
+                    charBaseId = character['base_id']
+                    charName = character['name']
+            # Retrieve Character Special Abilities
+            if charBaseId != '':
+                for ablt in abltList:
+                    if ablt['character_base_id'] == charBaseId\
+                        and ablt['type'] != swgohgg.SHIP_ABLT\
+                        and ablt['type'] == swgohgg.SPECIAL_ABLT:
+                        matches.append(ablt)
+            # Find the corresponding Special Ability number
+            if optList is not None:
+                for specialAblt in matches:
+                    if specialAblt['base_id'][-1] == optList[0]:
+                        special = specialAblt
+                if special != '':
+                    # Retrieve Ability Description from Swgoh.gg website
+                    abltHtmlDoc = webscrapper.get_html_doc('', 'ability',
+                    special['url'])
+                    abltDesc = webscrapper.get_ablt_desc(abltHtmlDoc,
+                        special['url'])
+                    # Create Embed
+                    embedContent = embed.add_embed_content(
+                        embedContent, 'Thumbnail', special['image'])
+                    embedContent = embed.add_embed_content(
+                        embedContent, 'Description', cmd + ' ' + optList[0]
+                        + ' ' + mainArg)
+                    fieldContent = abltDesc
+                    embedContent = embed.add_embed_content(
+                        embedContent, 'Fields', embed.create_field(
+                            ctx.bot.get_localized_str(ctx, 'special_success')\
+                            + ctx.bot.get_localized_character(ctx, charName) +\
+                            ': '+ special['name'] + '\n', fieldContent))
+            # No match found
+            # No character match
+            if charBaseId == '' and len(argList[0]) < ARG_CHAR_LIMIT:
+                embedContent = embed.add_embed_content(embedContent,
+                    'Description', ctx.bot.get_localized_str(ctx,
+                    'special_fail') + mainArg + '\n')
+            # No ability match
+            elif special == '' and optList[0] in ctx.bot.optionsNumbers:
+                embedContent = embed.add_embed_content(embedContent,
+                    'Description', ctx.bot.get_localized_str(ctx,
+                    'less_special_fail') + '\n')
+            # Out of range
+            else:
+                try:
+                    argToInt = int(argList[0])
+                    if argToInt not in ctx.bot.optionsNumbers:
+                        embedContent = embed.add_embed_content(embedContent,
+                            'Description', ctx.bot.get_localized_str(ctx,
+                            'special_incorrect_arg'))
+                except ValueError:
+                    embedContent = embed.add_embed_content(embedContent,
+                    'Description',ctx.bot.get_localized_str(ctx,
+                    'missing_wrong_arg'))
+        # Missing Arg
+        else:
+            embedContent = embed.add_embed_content(embedContent,
+            'Description',ctx.bot.get_localized_str(ctx,'missing_wrong_arg'))
+        # Send the Embed
+        e = embed.create_embed(ctx, embedContent)
+        await ctx.bot.send_embed(ctx, e, cmd)
+
 
     @commands.command(
         brief=locals.HELP_LOCAL['kit_brief'],
@@ -145,7 +231,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         # Invalid/Missing Args
         else:
             embedContent = embed.add_embed_content(embedContent, 'Description',
-                ctx.bot.get_localized_str(ctx, 'missing_arg'))
+                ctx.bot.get_localized_str(ctx, 'missing_wrong_arg'))
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e, cmd)
@@ -198,7 +284,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         else:
             if (argList is None or filter == ''):
                 embedContent = embed.add_embed_content(embedContent,
-                'Description', ctx.bot.get_localized_str(ctx, 'missing_arg'))
+                'Description', ctx.bot.get_localized_str(ctx, 'missing_wrong_arg'))
                 # Send the Embed
                 e = embed.create_embed(ctx, embedContent)
                 await ctx.bot.send_embed(ctx, e, cmd)
@@ -271,7 +357,7 @@ class Bot_cmds(commands.Cog, name='Bot Commands'):
                     + args + '.')
                 await ctx.channel.send(msg)
         else:
-            msg = ctx.bot.get_localized_str(ctx, 'missing_arg')
+            msg = ctx.bot.get_localized_str(ctx, 'missing_wrong_arg')
             await ctx.channel.send(msg)
 
     # Delete the last 20 messages in the Bot channel and close the Bot if Owner
