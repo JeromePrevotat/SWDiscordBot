@@ -203,6 +203,11 @@ class KhaBot(commands.Bot):
         else:
             i = 0
             while i < len(argList):
+                try:
+                    intArg = int(argList[i])
+                    mainArg += argList[i].lower() + ' '
+                except ValueError:
+                    pass
                 if argList[i] not in optList:
                     mainArg += argList[i].lower() + ' '
                 i += 1

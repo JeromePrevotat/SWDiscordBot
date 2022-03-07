@@ -110,7 +110,12 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         embedContent = embed.init_embed()
         if argList is not None:
             mainArg = ctx.bot.get_main_arg(argList, optList)
-            charName = mainArg
+            for arg in mainArg.split():
+                try:
+                    intArg = int(arg)
+                except ValueError:
+                    charName += arg + ' '
+            charName = charName.strip()
             # Find all Characters matching Arg
             charList = ctx.bot.client.get_from_api('characters')
             abltList = ctx.bot.client.get_from_api('abilities')
@@ -143,8 +148,7 @@ class Game_cmds(commands.Cog, name='Game Commands'):
                     embedContent = embed.add_embed_content(
                         embedContent, 'Thumbnail', special['image'])
                     embedContent = embed.add_embed_content(
-                        embedContent, 'Description', cmd + ' ' + optList[0]
-                        + ' ' + mainArg)
+                        embedContent, 'Description', cmd + ' ' + mainArg)
                     fieldContent = abltDesc
                     embedContent = embed.add_embed_content(
                         embedContent, 'Fields', embed.create_field(
@@ -181,7 +185,6 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         # Send the Embed
         e = embed.create_embed(ctx, embedContent)
         await ctx.bot.send_embed(ctx, e, cmd)
-
 
     @commands.command(
         brief=locals.HELP_LOCAL['kit_brief'],
