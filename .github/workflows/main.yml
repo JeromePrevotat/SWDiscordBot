@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -13,5 +13,5 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "swdiscordbot" #Must be unique in Heroku
+          heroku_app_name: "swgohdiscordbot" #Must be unique in Heroku
           heroku_email: "jer.prevotat@gmail.com"
