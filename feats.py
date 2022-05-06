@@ -101,13 +101,13 @@ FEATS = {
     # General Feats
     'g':{
         'General':
-        '**I Have Broken My Chains :** Win 20 battles without using a Leader in the leader slot.\n\t- CAT JMK/C3PO + Sion + Nihilus Boss Sector 2\n\n\
+        '**I Have Broken My Chains :** Win 20 battles without using a Leader in the leader slot\n\t- CAT JMK/C3PO + Sion + Nihilus Boss Sector 2\n\n\
         **Sustained by Rage :** Defeat 100 enemies with Darth Malak or Darth Revan\n\t- Dralak\n\n\
         **Grand Victory :** Defeat at least 500 enemies\n\t- Whatever\n\n\
         **Measure of Admiration :** Win 40 battles with a full squad of Old Republic\n\t- JKR Bastilla Jolee Zaalbar Mission + Zealous Ambition Data Disk in Sector 1\n\n\
         **A New Empire :** Win 40 battles with a full squad of Sith Empire\n\t- Dralak\n\n\
         **War Made Manifest :** Win 20 battles with Darth Nihilus and Darth Sion in your squad\n\t- C3PO + Sion + Nihilus Boss Sector 2\n\n\
         **Visions of Doubt :** Gain Foresight from Premonition 20 times\n\t- Requires completing I Have Broken My Chains Feat\n\n\
-        **Power of the Dark Side :** Defeat enemies with Dread 20 times\n\t- Requires completing Sustained by Rage Feat\n\n\,
+        **Power of the Dark Side :** Defeat enemies with Dread 20 times\n\t- Requires completing Sustained by Rage Feat\n\n',
         },
 }
