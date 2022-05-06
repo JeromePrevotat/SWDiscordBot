@@ -108,6 +108,6 @@ FEATS = {
         **A New Empire :** Win 40 battles with a full squad of Sith Empire\n\t- Dralak\n\n\
         **War Made Manifest :** Win 20 battles with Darth Nihilus and Darth Sion in your squad\n\t- C3PO + Sion + Nihilus Boss Sector 2\n\n\
         **Visions of Doubt :** Gain Foresight from Premonition 20 times\n\t- Requires completing I Have Broken My Chains Feat\n\n\
-        **Power of the Dark Side :** Defeat enemies with Dread 20 times\n\t- Requires completing Sustained by Rage Feat\n\n\,
+        **Power of the Dark Side :** Defeat enemies with Dread 20 times\n\t- Requires completing Sustained by Rage Feat\n\n\',
         },
 }
