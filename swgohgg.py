@@ -40,7 +40,8 @@ class Swgohgg():
         fullUrl = self.baseUrl + self.categoryUrl[category]
         request = requests.request('GET', fullUrl, timeout=10)
         if request.status_code != 200:
-            return {'status_code':request.status_code, 'message':'Error'}
+            print({'status_code':request.status_code, 'message':'Error'})
+            return None
         result = loads(request.content.decode('utf-8'))
         return result
 

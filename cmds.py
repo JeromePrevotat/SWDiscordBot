@@ -205,6 +205,11 @@ class Game_cmds(commands.Cog, name='Game Commands'):
         embedContent = embed.init_embed()
         matches = []
         charList = ctx.bot.client.get_from_api('characters')
+        if charList is None:
+            embedContent = embed.add_embed_content(embedContent, 'Description',
+                ctx.bot.get_localized_str(ctx, 'something_went_wrong'))
+            e = embed.create_embed(ctx, embedContent)
+            await ctx.bot.send_embed(ctx, e, cmd)
         # Find all Characters matching Arg
         if argList is not None:
             for charBaseId, charAbltList in interactions.ABLT_CLASSES.items():
